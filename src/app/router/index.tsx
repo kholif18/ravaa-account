@@ -20,6 +20,17 @@ import { DataPrivacyPage } from "../../pages/account/data-privacy-page";
 import { AdminOverviewPage } from "../../pages/admin/admin-overview-page";
 import { AdminApplicationsPage } from "../../pages/admin/admin-applications-page";
 import { AdminPermissionsPage } from "../../pages/admin/admin-permissions-page";
+import { AdminUsersPage } from "../../pages/admin/admin-users-page";
+
+// HOME mode: hide Enterprise admin — set VITE_HOME_HIDE_ADMIN=false untuk business mode
+const HOME_HIDE_ADMIN = import.meta.env.VITE_HOME_HIDE_ADMIN !== "false";
+
+function HomeGuard({ children }: { children: React.ReactNode }) {
+  if (HOME_HIDE_ADMIN) {
+    return <Navigate to="/app" replace />;
+  }
+  return <>{children}</>;
+}
 
 function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -60,7 +71,7 @@ export const router = createBrowserRouter([
       { path: "security/2fa", element: <TwoFactorPage /> },
       { path: "security/recovery", element: <RecoveryPage /> },
       { path: "sessions", element: <SessionsPage /> },
-      { path: "applications", element: <ApplicationsPage /> },
+      { path: "applications", element: HOME_HIDE_ADMIN ? <Navigate to="/app" replace /> : <ApplicationsPage /> },
       { path: "preferences", element: <PreferencesPage /> },
       { path: "data-privacy", element: <DataPrivacyPage /> },
     ],
@@ -74,9 +85,11 @@ export const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <AdminOverviewPage /> },
-      { path: "applications", element: <AdminApplicationsPage /> },
-      { path: "permissions", element: <AdminPermissionsPage /> },
+      { path: "users", element: <AdminUsersPage /> },
+      { path: "applications", element: <HomeGuard><AdminApplicationsPage /></HomeGuard> },
+      { path: "permissions", element: <HomeGuard><AdminPermissionsPage /></HomeGuard> },
     ],
   },
+
   { path: "*", element: <Navigate to="/" replace /> },
 ]);

@@ -249,7 +249,9 @@ The frontend connects to ravaa-service at `http://localhost:3000` (dev) or `http
 | GET/POST | `/api/v1/applications/{id}/scopes` | Manage scopes |
 | GET/POST | `/api/v1/applications/{id}/access` | Manage access |
 
-### Permission Endpoints (Admin)
+### Permission Endpoints (Admin — Enterprise only, HIDDEN di Home Mode)
+> Home Mode tidak pakai ini. Share file pakai `ShareLink` di Drive (`/api/share` + `/s/{token}`), bukan RBAC.
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/v1/permissions` | List permissions |
@@ -260,6 +262,15 @@ The frontend connects to ravaa-service at `http://localhost:3000` (dev) or `http
 | POST | `/api/v1/permissions/revoke` | Revoke resource permission |
 | GET | `/api/v1/permissions/resource/{type}/{id}` | List resource permissions |
 | GET | `/api/v1/permissions/principal/{type}/{id}` | List principal permissions |
+
+### ShareLink Endpoints (Home Mode — di Ravaa-Drive, bukan di ravaa-service)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/share` | Create ShareLink (PRIVATE/FAMILY/LINK + password + expiresAt + maxViews) |
+| GET | `/api/share?fileId=&folderId=` | List ShareLinks untuk resource |
+| DELETE | `/api/share/{id}` | Revoke ShareLink |
+| GET | `/s/{token}` / `/shared/{token}` | Public access tanpa login (validasi token + password jika ada) |
+| GET | `/api/files/{id}/download?token=` | Download via share token |
 
 ## Environment Variables
 
@@ -326,17 +337,44 @@ PGPASSWORD=ravaa_dev_password psql -h localhost -U ravaa -d ravaa_service \
   -c "UPDATE users SET role = 'ADMIN' WHERE email = 'your@email.com';"
 ```
 
+## Architecture Decision — Home Mode vs Enterprise (2026-09-17)
+
+> **Konteks:** Tujuan utama adalah **pribadi + keluarga + toko desain** (share source ke pelanggan tanpa akun), bukan enterprise marketplace. Pemisahan `Drive | Note | Photos` tetap dipertahankan (benar), yang disederhanakan adalah **jeroan permission**.
+
+**Keputusan:**
+- `ravaa-account` + `ravaa-service` tetap sebagai **Pusat Login Satu Pintu** (SSO) — 1 akun untuk semua app.
+- Fitur Enterprise `Applications / Scopes / Permissions (RBAC resource:action + grant/revoke ke principal)` adalah **overkill untuk home** → **disembunyikan (hidden) pada deploy HOME**, tidak dihapus (agar bisa diaktifkan lagi jika go public).
+- **Permission file/folder yang benar TIDAK tinggal di `ravaa-account`**. `lib/api/permissions.ts` adalah RBAC sistem (admin catalogue), bukan share file user. Untuk home, ganti dengan model **`ShareLink` di masing-masing app (Drive/Note/Photos)** dengan 3 level:
+
+| Visibility | Arti | Butuh Akun? | Contoh |
+|---|---|---|---|
+| `PRIVATE` | Hanya owner | Ya (owner) | File pribadi |
+| `FAMILY` | Shared ke keluarga (butuh login `ravaa-account`) | Ya | Foto keluarga |
+| `LINK` | Link publik via token aman (`/s/{token}`) + opsi password + expiry + maxViews | **Tidak** | Source desain untuk pelanggan toko |
+
+**Keamanan LINK tanpa akun:**
+- Token = `crypto.randomBytes(32)` → base64url 43 char (256-bit entropy, tidak bisa ditebak/brute force)
+- Opsional `passwordHash` (bcrypt) → pelanggan input password yang kamu share via WA
+- `expiresAt` (default 7 hari untuk pelanggan), `maxViews`, `allowDownload`, `revokedAt` (revoke 1 klik)
+- Rate-limit + 404 generik jika token salah (jangan leak existance)
+
+**Implikasi di `ravaa-account`:**
+- `src/lib/api/permissions.ts` → **DEPRECATED untuk home** — jangan dipakai untuk share file. Diganti `src/lib/api/shares.ts` (jika butuh family group). Endpoint `/api/v1/permissions/*` tetap ada di service tapi tidak diekspos di UI Home.
+- `src/pages/admin/admin-permissions-page.tsx` & `admin-applications-page.tsx` → hidden dari `sidebar.tsx` saat `VITE_HOME_MODE=true` (atau cek role, tapi tetap ada code-nya).
+- Sidebar Home hanya tampil: Dashboard, Profile, Security, Sessions — Admin disembunyikan.
+
 ## Key Features
 
 1. **Authentication**: Register, login, logout, token refresh
 2. **Profile**: View account details, role, status
 3. **Security**: Password management (placeholder), session management
 4. **Sessions**: List active sessions, revoke individual or all
-5. **Applications**: View connected applications
-6. **Admin - Applications**: CRUD applications, manage scopes/access, rotate secrets
-7. **Admin - Permissions**: CRUD permission catalogue
+5. **Applications**: View connected applications (Enterprise only — hidden di Home Mode)
+6. **Admin - Applications**: CRUD applications, manage scopes/access, rotate secrets (Enterprise only)
+7. **Admin - Permissions**: CRUD permission catalogue (Enterprise only — diganti ShareLink di Drive untuk Home)
 8. **Theme**: Dark/light mode toggle (persisted to localStorage)
 9. **Responsive**: Collapsible sidebar, mobile-friendly
+10. **Home Sharing (baru)**: PRIVATE / FAMILY / LINK (token aman + password + expiry) — logic di Drive/Photos, bukan di Account
 
 ## Integration Status (Ravaa Ecosystem)
 
@@ -353,6 +391,13 @@ PGPASSWORD=ravaa_dev_password psql -h localhost -U ravaa -d ravaa_service \
 | 7.7 Share Polymorphic Fix | ✅ PASS | 15 files refactored from `fileId/folderId` → `shareableType/shareableId` |
 | 7.8 Security Hardening | ✅ PASS | 16 security fixes across Service + Drive |
 | 7.9 Session Hardening Design | ✅ PASS | Audit + design report, recommended Option C (4h JWT + revalidation) |
+| 7.10 Home Simplification | 🔄 ADR 2026-09-17 | Putusan: Enterprise RBAC di-hidden, ganti 3-level ShareLink (PRIVATE/FAMILY/LINK + token aman + password + expiry) untuk Drive/Photos toko |
+
+### Architecture Decision 2026-09-17 — Detail
+
+- **Before:** `permissions.ts` RBAC unlimited `resource:action` + `grant/revoke` ke `USER/APPLICATION/SYSTEM` → overkill untuk keluarga (butuh bikin akun per pelanggan toko).
+- **After:** `ShareLink` 3 level di Drive (bukan di Account). LINK = token 32-byte + `passwordHash` opsional + `expiresAt` + `maxViews` + `revokedAt`. Pelanggan buka `/s/{token}` tanpa akun, tetap aman (entropy 256-bit, expiry, revoke).
+- **Repo terdampak:** `ravaa-account` (hide admin), `ravaa-service` (endpoints tetap tapi tidak dipakai Home), `Ravaa-Drive` (implementasi ShareLink), `Ravaa-Note` (konsep sama untuk share catatan ke pelanggan jika perlu).
 
 ### Key Security Fixes (Phase 7.8)
 

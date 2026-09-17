@@ -1,3 +1,10 @@
+/**
+ * ENTERPRISE only di HOME mode (ADR 2026-09-17)
+ * Applications / OAuth clients — hidden di HOME (VITE_HOME_HIDE_ADMIN=true).
+ * Drive/Note/Photos di HOME tidak daftar sebagai Application, cukup pakai JWT internal via /api/v1/me.
+ * Tetap ada untuk business mode.
+ */
+
 import { apiRequest } from "./client";
 import type { Application, ApplicationScope, UserApplicationAccess } from "../../types";
 

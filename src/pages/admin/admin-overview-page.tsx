@@ -2,7 +2,7 @@ import { useAuth } from "../../auth/auth-provider";
 import { Card, CardContent } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { Link, Navigate } from "react-router-dom";
-import { AppWindow, Lock } from "lucide-react";
+import { AppWindow, Lock, Users } from "lucide-react";
 
 export function AdminOverviewPage() {
   const { state } = useAuth();
@@ -57,6 +57,26 @@ export function AdminOverviewPage() {
                   </h3>
                   <p className="text-sm text-slate-500">
                     Manage the permission catalogue and resource grants
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link to="/admin/users">
+          <Card className="card-link">
+            <CardContent>
+              <div className="flex items-center gap-3">
+                <div className="icon-chip">
+                  <Users />
+                </div>
+                <div>
+                  <h3 className="font-semibold dark:text-slate-100 text-slate-900">
+                    Users & Storage
+                  </h3>
+                  <p className="text-sm text-slate-500">
+                    Kelola user dan kapasitas storage per user (dynamic)
                   </p>
                 </div>
               </div>

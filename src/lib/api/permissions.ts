@@ -1,3 +1,11 @@
+/**
+ * DEPRECATED di HOME mode (ADR 2026-09-17)
+ * RBAC Enterprise (resource:action + grant/revoke) — overkill untuk pribadi/keluarga/toko.
+ * Untuk HOME, share file pakai ShareLink di Ravaa-Drive (LINK + token aman + password), bukan via service RBAC.
+ * File ini tetap ada untuk business mode (VITE_HOME_HIDE_ADMIN=false), tapi tidak dipakai di HOME.
+ * Jangan hapus — bisa diaktifkan lagi jika go business/SaaS.
+ */
+
 import { apiRequest } from "./client";
 import type { Permission, ResourcePermission } from "../../types";
 
