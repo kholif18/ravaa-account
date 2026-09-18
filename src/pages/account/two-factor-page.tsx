@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { QRCodeSVG } from "qrcode.react";
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardContent } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
@@ -127,7 +128,7 @@ export function TwoFactorPage() {
           <p className="page-subtitle">Add an extra layer of security to your account</p>
         </div>
         <Link to="/app/security">
-          <button className="px-4 py-2 text-sm font-medium rounded-lg dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800/50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+          <button className="px-4 py-2 text-sm font-medium rounded-lg dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-[#1A1A1A]/50 text-zinc-400 hover:text-white hover:bg-[#f5f5f5] transition-colors">
             Back
           </button>
         </Link>
@@ -159,11 +160,11 @@ export function TwoFactorPage() {
               <Shield />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900 flex items-center gap-2">
+              <h2 className="text-lg font-semibold dark:text-zinc-100 text-white flex items-center gap-2">
                 Two-Factor Authentication
                 {isEnabled ? <Badge variant="success">Enabled</Badge> : <Badge variant="warning">Disabled</Badge>}
               </h2>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-zinc-500">
                 {isEnabled ? "Your account is protected with TOTP 2FA." : "Protect your account with an authenticator app."}
               </p>
             </div>
@@ -174,14 +175,14 @@ export function TwoFactorPage() {
             <>
               {!setupData ? (
                 <>
-                  <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl text-sm text-slate-600 dark:text-slate-400">
-                    <p className="font-medium dark:text-slate-200 text-slate-900 mb-1 flex items-center gap-2">
+                  <div className="p-4 bg-[#f5f5f5] dark:bg-[#1A1A1A]/50 rounded-xl text-sm text-zinc-400 dark:text-zinc-400">
+                    <p className="font-medium dark:text-zinc-200 text-white mb-1 flex items-center gap-2">
                       <KeyRound className="w-4 h-4" /> How it works
                     </p>
                     <ul className="list-disc list-inside space-y-1">
                       <li>Click Setup — we generate a secret key.</li>
                       <li>Scan QR or enter secret in Google Authenticator / Authy.</li>
-                      <li>Enter the 6-digit code to confirm. You can also use <code className="font-mono bg-slate-200 dark:bg-slate-700 px-1 rounded">123456</code> for testing.</li>
+                      <li>Enter the 6-digit code to confirm. You can also use <code className="font-mono bg-slate-200 dark:bg-[#232323] px-1 rounded">123456</code> for testing.</li>
                     </ul>
                   </div>
                   <Button onClick={handleSetup} loading={setupLoading}>
@@ -190,31 +191,38 @@ export function TwoFactorPage() {
                 </>
               ) : (
                 <>
-                  <div className="space-y-4 p-4 border dark:border-slate-700 border-slate-200 rounded-xl bg-amber-50/50 dark:bg-amber-500/5">
-                    <div>
-                      <p className="text-sm font-medium dark:text-slate-200 text-slate-900 mb-1">Secret Key</p>
-                      <div className="flex items-center gap-2">
-                        <code className="flex-1 p-2 bg-white dark:bg-slate-900 rounded-lg font-mono text-sm break-all border dark:border-slate-700">
-                          {showSecret ? setupData.secret : "•••• •••• •••• •••• •••• ••••"}
-                        </code>
-                        <Button variant="ghost" size="sm" onClick={() => setShowSecret(!showSecret)}>
-                          {showSecret ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                        </Button>
-                        <Button variant="ghost" size="sm" onClick={() => copy(setupData.secret, "secret")}>
-                          {copied === "secret" ? <CheckCircle className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
-                        </Button>
+                  <div className="space-y-4 p-4 border dark:border-white/[0.04] border-zinc-200 rounded-xl bg-amber-50/50 dark:bg-amber-500/5">
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="shrink-0 flex flex-col items-center gap-2 p-3 rounded-xl bg-white border border-zinc-200">
+                        <QRCodeSVG value={setupData.otpauthUrl} size={160} />
+                        <p className="text-xs text-zinc-600">Scan dengan Google Authenticator</p>
                       </div>
-                      <p className="text-xs text-slate-500 mt-2 break-all">
-                        otpauth: <span className="font-mono">{setupData.otpauthUrl}</span>
-                      </p>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium dark:text-zinc-200 text-white mb-1">Secret Key</p>
+                        <div className="flex items-center gap-2">
+                          <code className="flex-1 p-2 bg-white dark:bg-[#2B2A33] rounded-lg font-mono text-sm break-all border dark:border-white/[0.04]">
+                            {showSecret ? setupData.secret : "•••• •••• •••• •••• •••• ••••"}
+                          </code>
+                          <Button variant="ghost" size="sm" onClick={() => setShowSecret(!showSecret)}>
+                            {showSecret ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                          </Button>
+                          <Button variant="ghost" size="sm" onClick={() => copy(setupData.secret, "secret")}>
+                            {copied === "secret" ? <CheckCircle className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                          </Button>
+                        </div>
+                        <p className="text-xs text-zinc-500 mt-2 break-all">
+                          otpauth: <span className="font-mono">{setupData.otpauthUrl}</span>
+                        </p>
+                        <p className="text-xs text-zinc-500 mt-1">Atau scan QR di kiri jika malas ketik manual</p>
+                      </div>
                     </div>
 
                     <div>
-                      <p className="text-sm font-medium dark:text-slate-200 text-slate-900 mb-2">Backup Codes</p>
-                      <p className="text-xs text-slate-500 mb-2">Save these — each can be used once if you lose your device. Shown only once.</p>
+                      <p className="text-sm font-medium dark:text-zinc-200 text-white mb-2">Backup Codes</p>
+                      <p className="text-xs text-zinc-500 mb-2">Save these — each can be used once if you lose your device. Shown only once.</p>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                         {setupData.backupCodes.map((c) => (
-                          <code key={c} className="p-2 bg-white dark:bg-slate-900 rounded-lg font-mono text-xs text-center border dark:border-slate-700">
+                          <code key={c} className="p-2 bg-white dark:bg-[#2B2A33] rounded-lg font-mono text-xs text-center border dark:border-white/[0.04]">
                             {c}
                           </code>
                         ))}
@@ -252,13 +260,13 @@ export function TwoFactorPage() {
                 <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
                 <div className="text-sm">
                   <p className="font-medium text-emerald-700 dark:text-emerald-400">2FA is active</p>
-                  <p className="text-slate-600 dark:text-slate-400">You will be asked for a TOTP code on login from new devices. Keep your authenticator app safe.</p>
+                  <p className="text-zinc-400 dark:text-zinc-400">You will be asked for a TOTP code on login from new devices. Keep your authenticator app safe.</p>
                 </div>
               </div>
 
-              <form onSubmit={handleDisable} className="space-y-3 p-4 border dark:border-slate-700 border-slate-200 rounded-xl">
-                <h3 className="font-medium dark:text-slate-100 text-slate-900">Disable 2FA</h3>
-                <p className="text-sm text-slate-500">Enter your password to disable two-factor authentication.</p>
+              <form onSubmit={handleDisable} className="space-y-3 p-4 border dark:border-white/[0.04] border-zinc-200 rounded-xl">
+                <h3 className="font-medium dark:text-zinc-100 text-white">Disable 2FA</h3>
+                <p className="text-sm text-zinc-500">Enter your password to disable two-factor authentication.</p>
                 <Input
                   label="Password"
                   type="password"
@@ -276,12 +284,12 @@ export function TwoFactorPage() {
         </CardContent>
       </Card>
 
-      <Card className="border-slate-200/50 dark:border-slate-700/30">
+      <Card className="border-zinc-200/50 dark:border-white/[0.04]/30">
         <CardContent className="p-4">
-          <div className="flex gap-3 text-sm text-slate-500">
-            <AlertCircle className="w-5 h-5 text-slate-400 flex-shrink-0" />
+          <div className="flex gap-3 text-sm text-zinc-500">
+            <AlertCircle className="w-5 h-5 text-zinc-400 flex-shrink-0" />
             <div>
-              <p className="font-medium dark:text-slate-300 text-slate-700">Backup codes are single-use</p>
+              <p className="font-medium dark:text-zinc-300 text-zinc-300">Backup codes are single-use</p>
               <p>If you lose your authenticator, use a backup code to regain access, then re-setup 2FA.</p>
             </div>
           </div>

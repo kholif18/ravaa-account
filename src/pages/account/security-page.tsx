@@ -1,12 +1,19 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../auth/auth-provider";
 import { Card, CardHeader, CardContent } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { Shield, Clock, Key, AlertTriangle } from "lucide-react";
+import * as meApi from "../../lib/api/me";
 
 export function SecurityPage() {
   const { state } = useAuth();
+  const [security, setSecurity] = useState<{ twoFactorEnabled: boolean } | null>(null);
+  useEffect(() => {
+    meApi.getSecurity().then((data) => setSecurity(data.security)).catch(() => {});
+  }, []);
   if (state.status !== "authenticated") return null;
+  const isEnabled = security?.twoFactorEnabled ?? false;
 
   return (
     <div className="page">
@@ -23,7 +30,7 @@ export function SecurityPage() {
               <Key />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+              <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
                 Password
               </h2>
             </div>
@@ -31,7 +38,7 @@ export function SecurityPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-slate-500 mb-4">
+          <p className="text-sm text-zinc-500 mb-4">
             Change your password regularly to keep your account secure.
           </p>
           <Link to="/app/security/password">
@@ -50,20 +57,20 @@ export function SecurityPage() {
               <Shield />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+              <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
                 Two-Factor Authentication
               </h2>
             </div>
-            <Badge variant="warning">Recommended</Badge>
+            <Badge variant={isEnabled ? "success" : "warning"}>{isEnabled ? "Enabled" : "Recommended"}</Badge>
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-slate-500 mb-4">
-            Add an extra layer of security to your account with TOTP-based two-factor authentication.
+          <p className="text-sm text-zinc-500 mb-4">
+            {isEnabled ? "Your account is protected with TOTP 2FA. Manage or disable in settings." : "Add an extra layer of security to your account with TOTP-based two-factor authentication."}
           </p>
           <Link to="/app/security/2fa">
             <button className="auth-submit max-w-[200px]">
-              Setup 2FA
+              {isEnabled ? "Manage 2FA" : "Setup 2FA"}
             </button>
           </Link>
         </CardContent>
@@ -77,14 +84,14 @@ export function SecurityPage() {
               <AlertTriangle />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+              <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
                 Recovery Options
               </h2>
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-slate-500 mb-4">
+          <p className="text-sm text-zinc-500 mb-4">
             Set up recovery email and phone number in case you lose access to your account.
           </p>
           <Link to="/app/security/recovery">
@@ -103,14 +110,14 @@ export function SecurityPage() {
               <Clock />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+              <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
                 Active Sessions
               </h2>
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-slate-500 mb-4">
+          <p className="text-sm text-zinc-500 mb-4">
             View and manage your active sessions across devices.
           </p>
           <Link to="/app/sessions">

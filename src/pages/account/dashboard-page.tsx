@@ -49,13 +49,13 @@ export function DashboardPage() {
           <AlertTriangle className="h-5 w-5 text-amber-500 shrink-0" />
           <div className="flex-1">
             <p className="text-sm font-medium text-amber-700 dark:text-amber-400">Email belum diverifikasi</p>
-            <p className="text-sm text-slate-500">Verifikasi email kamu untuk membantu menjaga keamanan akun.</p>
+            <p className="text-sm text-zinc-500">Verifikasi email kamu untuk membantu menjaga keamanan akun.</p>
             {resendMsg && <p className="text-sm text-green-600 dark:text-green-400 mt-1">{resendMsg}</p>}
           </div>
           <button
             onClick={handleResend}
             disabled={resendLoading}
-            className="px-4 py-2 text-sm font-medium rounded-lg bg-white dark:bg-slate-800 border border-amber-500/30 text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors flex items-center gap-1.5 shrink-0"
+            className="px-4 py-2 text-sm font-medium rounded-lg bg-white dark:bg-[#1A1A1A] border border-amber-500/30 text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors flex items-center gap-1.5 shrink-0"
           >
             <Mail className="h-4 w-4" /> {resendLoading ? "Mengirim..." : "Kirim ulang email"}
           </button>
@@ -70,10 +70,10 @@ export function DashboardPage() {
               <Shield />
             </div>
             <div className="flex-1">
-              <p className="font-semibold dark:text-slate-100 text-slate-900">
+              <p className="font-semibold dark:text-zinc-100 text-white">
                 Security Status: Good
               </p>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-zinc-500">
                 Password active. Consider enabling two-factor authentication.
               </p>
             </div>
@@ -95,10 +95,10 @@ export function DashboardPage() {
                   <User />
                 </div>
                 <div>
-                  <h3 className="font-semibold dark:text-slate-100 text-slate-900">
+                  <h3 className="font-semibold dark:text-zinc-100 text-white">
                     Profile
                   </h3>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-zinc-500">
                     View and edit your account details
                   </p>
                 </div>
@@ -115,10 +115,10 @@ export function DashboardPage() {
                   <Shield />
                 </div>
                 <div>
-                  <h3 className="font-semibold dark:text-slate-100 text-slate-900">
+                  <h3 className="font-semibold dark:text-zinc-100 text-white">
                     Security
                   </h3>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-zinc-500">
                     Manage passwords and security settings
                   </p>
                 </div>
@@ -135,10 +135,10 @@ export function DashboardPage() {
                   <Clock />
                 </div>
                 <div>
-                  <h3 className="font-semibold dark:text-slate-100 text-slate-900">
+                  <h3 className="font-semibold dark:text-zinc-100 text-white">
                     Sessions
                   </h3>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-zinc-500">
                     View and revoke active sessions
                   </p>
                 </div>
@@ -155,10 +155,10 @@ export function DashboardPage() {
                   <Puzzle />
                 </div>
                 <div>
-                  <h3 className="font-semibold dark:text-slate-100 text-slate-900">
+                  <h3 className="font-semibold dark:text-zinc-100 text-white">
                     Applications
                   </h3>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-zinc-500">
                     Connected applications
                   </p>
                 </div>
@@ -178,12 +178,12 @@ export function DashboardPage() {
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="font-semibold dark:text-slate-100 text-slate-900">
+                        <h3 className="font-semibold dark:text-zinc-100 text-white">
                           Administration
                         </h3>
                         <Badge variant="warning">Admin</Badge>
                       </div>
-                      <p className="text-sm text-slate-500">
+                      <p className="text-sm text-zinc-500">
                         Manage Ravaa ecosystem
                       </p>
                     </div>
@@ -200,10 +200,10 @@ export function DashboardPage() {
                       <AppWindow />
                     </div>
                     <div>
-                      <h3 className="font-semibold dark:text-slate-100 text-slate-900">
+                      <h3 className="font-semibold dark:text-zinc-100 text-white">
                         Manage Applications
                       </h3>
-                      <p className="text-sm text-slate-500">
+                      <p className="text-sm text-zinc-500">
                         Create and configure applications
                       </p>
                     </div>

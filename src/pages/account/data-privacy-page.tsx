@@ -93,13 +93,13 @@ export function DataPrivacyPage() {
             <div className="icon-chip">
               <Download />
             </div>
-            <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+            <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
               Download Your Data
             </h2>
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-slate-500 mb-4">
+          <p className="text-sm text-zinc-500 mb-4">
             Download a copy of your data including profile, security settings, sessions, connected applications, and recent audit logs.
           </p>
 
@@ -115,14 +115,14 @@ export function DataPrivacyPage() {
             </div>
           )}
 
-          <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border dark:border-slate-700/50">
+          <div className="flex items-center justify-between p-4 bg-[#f5f5f5] dark:bg-[#1A1A1A]/50 rounded-lg border dark:border-white/[0.04]/50">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg bg-blue-500/10">
                 <FileText className="w-5 h-5 text-blue-500" />
               </div>
               <div>
-                <p className="font-medium dark:text-slate-100 text-slate-900">Full Data Export (JSON)</p>
-                <p className="text-sm text-slate-500">Includes profile, sessions, apps, audit logs</p>
+                <p className="font-medium dark:text-zinc-100 text-white">Full Data Export (JSON)</p>
+                <p className="text-sm text-zinc-500">Includes profile, sessions, apps, audit logs</p>
               </div>
             </div>
             <Button onClick={handleExport} loading={exporting}>
@@ -140,22 +140,22 @@ export function DataPrivacyPage() {
             <div className="icon-chip purple">
               <Clock />
             </div>
-            <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+            <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
               Data Retention
             </h2>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border dark:border-slate-700/30">
-            <p className="font-medium dark:text-slate-100 text-slate-900 mb-1">Automatic Deletion</p>
-            <p className="text-sm text-slate-500">
+          <div className="p-4 bg-[#f5f5f5] dark:bg-[#1A1A1A]/50 rounded-lg border dark:border-white/[0.04]/30">
+            <p className="font-medium dark:text-zinc-100 text-white mb-1">Automatic Deletion</p>
+            <p className="text-sm text-zinc-500">
               Sessions older than 90 days are automatically purged. Application access logs are kept for 1 year for security auditing.
               Audit logs older than 1 year may be archived.
             </p>
           </div>
-          <div className="p-4 bg-slate-50 dark:bg-slate-800/30 rounded-lg border dark:border-slate-700/30 opacity-80">
-            <p className="font-medium dark:text-slate-100 text-slate-900 mb-1">Local Preferences</p>
-            <p className="text-sm text-slate-500">
+          <div className="p-4 bg-[#f5f5f5] dark:bg-[#1A1A1A]/30 rounded-lg border dark:border-white/[0.04]/30 opacity-80">
+            <p className="font-medium dark:text-zinc-100 text-white mb-1">Local Preferences</p>
+            <p className="text-sm text-zinc-500">
               Language, timezone, and notification preferences are stored in your browser (localStorage key <code className="font-mono">ravaa-preferences</code>). Clear site data to remove them.
             </p>
           </div>
@@ -170,7 +170,7 @@ export function DataPrivacyPage() {
               <Trash2 className="w-5 h-5 text-red-500" />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">Delete Account</h2>
+              <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">Delete Account</h2>
               <p className="text-sm text-red-500">Danger Zone — irreversible</p>
             </div>
           </div>
@@ -181,7 +181,7 @@ export function DataPrivacyPage() {
               <div className="p-4 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 rounded-xl mb-4">
                 <div className="flex items-start gap-3">
                   <AlertCircle className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm text-slate-600 dark:text-slate-400">
+                  <div className="text-sm text-zinc-400 dark:text-zinc-400">
                     <p className="font-medium text-amber-700 dark:text-amber-400 mb-1">This will permanently delete your account</p>
                     <ul className="list-disc list-inside space-y-1">
                       <li>All sessions will be revoked</li>
@@ -230,7 +230,7 @@ export function DataPrivacyPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-[34px] text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                  className="absolute right-3 top-[34px] text-zinc-400 hover:text-zinc-400 dark:hover:text-zinc-300"
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -267,13 +267,13 @@ export function DataPrivacyPage() {
             <div className="icon-chip">
               <Shield />
             </div>
-            <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+            <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
               Privacy Notice
             </h2>
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-sm text-slate-500 space-y-3">
+          <div className="text-sm text-zinc-500 space-y-3">
             <p>
               Ravaa Account is the central identity service for the Ravaa ecosystem. We collect only the data necessary to provide
               authentication and authorization services across Ravaa applications.

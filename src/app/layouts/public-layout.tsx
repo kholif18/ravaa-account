@@ -34,7 +34,7 @@ export function PublicLayout() {
       {/* Theme toggle */}
       <button
         onClick={toggleTheme}
-        className="absolute top-4 right-4 z-20 p-2 rounded-lg dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800/50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors backdrop-blur-xl"
+        className="absolute top-4 right-4 z-20 p-2 rounded-lg dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-[#1A1A1A]/50 text-zinc-400 hover:text-white hover:bg-[#f5f5f5] transition-colors backdrop-blur-xl"
       >
         {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
       </button>

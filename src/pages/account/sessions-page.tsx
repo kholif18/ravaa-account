@@ -86,7 +86,7 @@ export function SessionsPage() {
       )}
 
       <Card>
-        <CardContent>
+        <CardContent className="p-0">
           <div className="list-divider">
             {sessions.map((session) => (
               <div key={session.id} className="list-item">
@@ -96,19 +96,19 @@ export function SessionsPage() {
                       {getDeviceIcon(session.deviceType)}
                     </div>
                     <div>
-                      <p className="font-medium dark:text-slate-100 text-slate-900">
+                      <p className="font-medium dark:text-zinc-100 text-white">
                         {session.deviceName || session.deviceType || "Unknown Device"}
                       </p>
-                      <p className="text-sm text-slate-500">
+                      <p className="text-sm text-zinc-500">
                         {session.ipAddress || "Unknown IP"}
                       </p>
-                      <p className="text-xs text-slate-400 mt-1">
+                      <p className="text-xs text-zinc-400 mt-1">
                         Last active:{" "}
                         {session.lastActiveAt
                           ? new Date(session.lastActiveAt).toLocaleString()
                           : "Never"}
                       </p>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-zinc-400">
                         Expires: {new Date(session.expiresAt).toLocaleString()}
                       </p>
                     </div>
@@ -124,7 +124,7 @@ export function SessionsPage() {
               </div>
             ))}
             {sessions.length === 0 && (
-              <p className="list-item text-sm text-slate-500 text-center">
+              <p className="list-item text-sm text-zinc-500 text-center">
                 No active sessions
               </p>
             )}

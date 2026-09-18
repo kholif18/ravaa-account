@@ -111,7 +111,7 @@ export function ProfileEditPage() {
           <p className="page-subtitle">Update your account information</p>
         </div>
         <Link to="/app/profile">
-          <button className="px-4 py-2 text-sm font-medium rounded-lg dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800/50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+          <button className="px-4 py-2 text-sm font-medium rounded-lg dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-[#1A1A1A]/50 text-zinc-400 hover:text-white hover:bg-[#f5f5f5] transition-colors">
             Cancel
           </button>
         </Link>
@@ -123,7 +123,7 @@ export function ProfileEditPage() {
             <div className="icon-chip">
               <User />
             </div>
-            <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+            <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
               Personal Information
             </h2>
           </div>
@@ -153,10 +153,10 @@ export function ProfileEditPage() {
               )}
             </div>
             <div className="space-y-1">
-              <p className="font-medium dark:text-slate-100 text-slate-900">
+              <p className="font-medium dark:text-zinc-100 text-white">
                 {user.displayName || user.username}
               </p>
-              <p className="text-sm text-slate-500">@{user.username} • {user.email}</p>
+              <p className="text-sm text-zinc-500">@{user.username} • {user.email}</p>
             </div>
           </div>
 
@@ -183,7 +183,7 @@ export function ProfileEditPage() {
               onChange={(e) => setAvatarUrl(e.target.value)}
               error={errors.avatarUrl}
             />
-            <p className="text-xs text-slate-500">Leave empty to remove avatar. Username must be 3-50 chars, lowercase letters, numbers, underscore.</p>
+            <p className="text-xs text-zinc-500">Leave empty to remove avatar. Username must be 3-50 chars, lowercase letters, numbers, underscore.</p>
 
             <div className="flex gap-3 pt-2">
               <Button type="submit" loading={loading} className="min-w-[140px]">
@@ -197,10 +197,10 @@ export function ProfileEditPage() {
             </div>
           </form>
 
-          <div className="mt-6 pt-4 border-t dark:border-slate-700/30 border-slate-200/50 space-y-2 text-sm text-slate-500">
+          <div className="mt-6 pt-4 border-t dark:border-white/[0.04]/30 border-zinc-200/50 space-y-2 text-sm text-zinc-500">
             <div className="flex justify-between">
               <span>Email</span>
-              <span className="font-mono text-slate-700 dark:text-slate-300">{user.email}</span>
+              <span className="font-mono text-zinc-300 dark:text-zinc-300">{user.email}</span>
             </div>
             <div className="flex justify-between">
               <span>Member Since</span>

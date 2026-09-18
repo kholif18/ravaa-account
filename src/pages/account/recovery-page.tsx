@@ -99,7 +99,7 @@ export function RecoveryPage() {
           <p className="page-subtitle">Set up recovery email and phone to regain access if locked out</p>
         </div>
         <Link to="/app/security">
-          <button className="px-4 py-2 text-sm font-medium rounded-lg dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800/50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+          <button className="px-4 py-2 text-sm font-medium rounded-lg dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-[#1A1A1A]/50 text-zinc-400 hover:text-white hover:bg-[#f5f5f5] transition-colors">
             Back
           </button>
         </Link>
@@ -111,7 +111,7 @@ export function RecoveryPage() {
             <div className="icon-chip">
               <Mail />
             </div>
-            <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+            <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
               Recovery Options
             </h2>
           </div>
@@ -139,7 +139,7 @@ export function RecoveryPage() {
               onChange={(e) => setRecoveryEmail(e.target.value)}
               error={errors.recoveryEmail}
             />
-            <p className="text-xs text-slate-500 -mt-2">Cannot be the same as your primary email. Leave empty to clear.</p>
+            <p className="text-xs text-zinc-500 -mt-2">Cannot be the same as your primary email. Leave empty to clear.</p>
 
             <Input
               label="Recovery Phone"
@@ -149,7 +149,7 @@ export function RecoveryPage() {
               onChange={(e) => setRecoveryPhone(e.target.value)}
               error={errors.recoveryPhone}
             />
-            <p className="text-xs text-slate-500 -mt-2">Include country code, e.g. +62. Leave empty to clear.</p>
+            <p className="text-xs text-zinc-500 -mt-2">Include country code, e.g. +62. Leave empty to clear.</p>
 
             <div className="flex gap-3 pt-2">
               <Button type="submit" loading={saving} disabled={!hasChanges}>
@@ -162,24 +162,24 @@ export function RecoveryPage() {
           </form>
 
           <div className="mt-6 grid gap-4">
-            <div className={`flex items-center gap-3 p-4 rounded-lg border ${recoveryEmail ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20" : "bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700"}`}>
+            <div className={`flex items-center gap-3 p-4 rounded-lg border ${recoveryEmail ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20" : "bg-[#f5f5f5] dark:bg-[#1A1A1A]/50 border-zinc-200 dark:border-white/[0.04]"}`}>
               <div className={`p-2 rounded-lg ${recoveryEmail ? "bg-emerald-500/10" : "bg-blue-500/10"}`}>
                 <Mail className={`w-5 h-5 ${recoveryEmail ? "text-emerald-500" : "text-blue-500"}`} />
               </div>
               <div className="flex-1">
-                <p className="font-medium dark:text-slate-100 text-slate-900">Recovery Email</p>
-                <p className="text-sm text-slate-500">{recoveryEmail || "Not set"}</p>
+                <p className="font-medium dark:text-zinc-100 text-white">Recovery Email</p>
+                <p className="text-sm text-zinc-500">{recoveryEmail || "Not set"}</p>
               </div>
               {recoveryEmail && <CheckCircle className="w-5 h-5 text-emerald-500" />}
             </div>
 
-            <div className={`flex items-center gap-3 p-4 rounded-lg border ${recoveryPhone ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20" : "bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700"}`}>
+            <div className={`flex items-center gap-3 p-4 rounded-lg border ${recoveryPhone ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20" : "bg-[#f5f5f5] dark:bg-[#1A1A1A]/50 border-zinc-200 dark:border-white/[0.04]"}`}>
               <div className={`p-2 rounded-lg ${recoveryPhone ? "bg-emerald-500/10" : "bg-blue-500/10"}`}>
                 <Phone className={`w-5 h-5 ${recoveryPhone ? "text-emerald-500" : "text-blue-500"}`} />
               </div>
               <div className="flex-1">
-                <p className="font-medium dark:text-slate-100 text-slate-900">Recovery Phone</p>
-                <p className="text-sm text-slate-500">{recoveryPhone || "Not set"}</p>
+                <p className="font-medium dark:text-zinc-100 text-white">Recovery Phone</p>
+                <p className="text-sm text-zinc-500">{recoveryPhone || "Not set"}</p>
               </div>
               {recoveryPhone && <CheckCircle className="w-5 h-5 text-emerald-500" />}
             </div>
@@ -191,7 +191,7 @@ export function RecoveryPage() {
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
             <AlertCircle className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-slate-500">
+            <div className="text-sm text-zinc-500">
               <p className="font-medium text-amber-600 dark:text-amber-400 mb-1">
                 Security Note
               </p>

@@ -152,7 +152,7 @@ export function AdminApplicationsPage() {
       {showCreate && (
         <Card>
           <CardHeader>
-            <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+            <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
               Create Application
             </h2>
           </CardHeader>
@@ -188,16 +188,16 @@ export function AdminApplicationsPage() {
 
       {createdSecret && (
         <Card className="border-green-500/30">
-          <CardContent>
+          <CardContent className="p-0">
             <div className="flex items-start justify-between">
               <div>
                 <h3 className="font-semibold text-green-500 mb-2">
                   Application Created
                 </h3>
-                <p className="text-sm text-slate-500 mb-2">
+                <p className="text-sm text-zinc-500 mb-2">
                   Copy this client secret now. It will not be shown again.
                 </p>
-                <code className="block p-3 bg-slate-100 dark:bg-slate-700/50 rounded-lg text-sm font-mono break-all dark:text-slate-200 text-slate-900">
+                <code className="block p-3 bg-[#f5f5f5] dark:bg-[#232323]/50 rounded-lg text-sm font-mono break-all dark:text-zinc-200 text-white">
                   {createdSecret}
                 </code>
               </div>
@@ -223,7 +223,7 @@ export function AdminApplicationsPage() {
       )}
 
       <Card>
-        <CardContent>
+        <CardContent className="p-0">
           <div className="list-divider">
             {applications.map((app) => (
               <div
@@ -232,13 +232,13 @@ export function AdminApplicationsPage() {
               >
                 <div className="flex justify-between items-start">
                   <div>
-                    <p className="font-medium dark:text-slate-100 text-slate-900">
+                    <p className="font-medium dark:text-zinc-100 text-white">
                       {app.name}
                     </p>
-                    <p className="text-sm text-slate-500">@{app.slug}</p>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-sm text-zinc-500">@{app.slug}</p>
+                    <p className="text-xs text-zinc-400 mt-1">
                       Client ID:{" "}
-                      <code className="bg-slate-100 dark:bg-slate-700 px-1 rounded">
+                      <code className="bg-[#f5f5f5] dark:bg-[#232323] px-1 rounded">
                         {app.clientId}
                       </code>
                     </p>
@@ -259,7 +259,7 @@ export function AdminApplicationsPage() {
               </div>
             ))}
             {applications.length === 0 && (
-              <p className="list-item text-sm text-slate-500 text-center">
+              <p className="list-item text-sm text-zinc-500 text-center">
                 No applications registered
               </p>
             )}

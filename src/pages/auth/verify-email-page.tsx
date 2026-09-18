@@ -104,7 +104,7 @@ export function VerifyEmailPage() {
             <AlertTriangle className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
             <div>
               <p className="font-medium text-amber-700 dark:text-amber-400">Token tidak ditemukan</p>
-              <p className="text-sm text-slate-500 mt-1">Link verifikasi tidak mengandung token. Pastikan kamu membuka link lengkap dari email.</p>
+              <p className="text-sm text-zinc-500 mt-1">Link verifikasi tidak mengandung token. Pastikan kamu membuka link lengkap dari email.</p>
             </div>
           </div>
           <ResendForm
@@ -127,9 +127,9 @@ export function VerifyEmailPage() {
             <div className="h-14 w-14 rounded-full bg-green-500/10 flex items-center justify-center mb-4">
               <CheckCircle className="h-8 w-8 text-green-500" />
             </div>
-            <h2 className="text-lg font-semibold dark:text-white text-slate-900">Email berhasil diverifikasi</h2>
-            <p className="text-sm text-slate-500 mt-2">Email kamu sekarang sudah terverifikasi.</p>
-            <p className="text-sm text-slate-500">Akun Ravaa kamu tetap aktif dan siap digunakan.</p>
+            <h2 className="text-lg font-semibold dark:text-white text-white">Email berhasil diverifikasi</h2>
+            <p className="text-sm text-zinc-500 mt-2">Email kamu sekarang sudah terverifikasi.</p>
+            <p className="text-sm text-zinc-500">Akun Ravaa kamu tetap aktif dan siap digunakan.</p>
           </div>
           <Link to="/login" className="auth-submit justify-center no-underline">
             Masuk ke Ravaa Account
@@ -148,7 +148,7 @@ export function VerifyEmailPage() {
             <XCircle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
             <div>
               <p className="font-medium text-red-600 dark:text-red-400">Link tidak valid</p>
-              <p className="text-sm text-slate-500 mt-1">Link verifikasi tidak valid atau sudah digunakan. Silakan kirim ulang email verifikasi.</p>
+              <p className="text-sm text-zinc-500 mt-1">Link verifikasi tidak valid atau sudah digunakan. Silakan kirim ulang email verifikasi.</p>
             </div>
           </div>
           <ResendForm email={email} setEmail={setEmail} onSubmit={handleResend} loading={resendLoading} message={resendMessage} error={resendError} />
@@ -164,7 +164,7 @@ export function VerifyEmailPage() {
             <Clock className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
             <div>
               <p className="font-medium text-amber-700 dark:text-amber-400">Link sudah kedaluwarsa</p>
-              <p className="text-sm text-slate-500 mt-1">Link verifikasi sudah kedaluwarsa. Silakan kirim ulang email verifikasi.</p>
+              <p className="text-sm text-zinc-500 mt-1">Link verifikasi sudah kedaluwarsa. Silakan kirim ulang email verifikasi.</p>
             </div>
           </div>
           <ResendForm email={email} setEmail={setEmail} onSubmit={handleResend} loading={resendLoading} message={resendMessage} error={resendError} />
@@ -180,7 +180,7 @@ export function VerifyEmailPage() {
             <XCircle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
             <div>
               <p className="font-medium text-red-600 dark:text-red-400">Gagal memverifikasi</p>
-              <p className="text-sm text-slate-500 mt-1">{verifyState.message}</p>
+              <p className="text-sm text-zinc-500 mt-1">{verifyState.message}</p>
             </div>
           </div>
           <ResendForm email={email} setEmail={setEmail} onSubmit={handleResend} loading={resendLoading} message={resendMessage} error={resendError} />

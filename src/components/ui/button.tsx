@@ -30,11 +30,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           {
             "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 dark:bg-blue-500 dark:hover:bg-blue-600":
               variant === "primary",
-            "bg-white text-slate-900 border border-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-700":
+            "bg-white text-white border border-zinc-200 hover:bg-[#f5f5f5] dark:bg-[#1A1A1A] dark:text-zinc-200 dark:border-white/[0.04] dark:hover:bg-[#232323]":
               variant === "secondary",
             "bg-red-600 text-white hover:bg-red-700 active:bg-red-800 dark:bg-red-500 dark:hover:bg-red-600":
               variant === "danger",
-            "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800":
+            "text-zinc-400 hover:bg-[#f5f5f5] dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-[#1A1A1A]":
               variant === "ghost",
           },
           {

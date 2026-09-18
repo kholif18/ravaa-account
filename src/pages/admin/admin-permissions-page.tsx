@@ -6,7 +6,8 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import * as permissionsApi from "../../lib/api/permissions";
 import type { Permission } from "../../types";
-import { Plus, Trash2, Search, Shield, Layers } from "lucide-react";
+import { Plus, Trash2, Search, Shield, Layers, HelpCircle } from "lucide-react";
+import { Offcanvas, FloatingGuideButton } from "../../components/ui/offcanvas";
 
 const RESOURCES = ["drive", "notes", "photos", "admin", "user"] as const;
 const ACTIONS = ["read", "write", "share", "delete", "manage"] as const;
@@ -42,6 +43,7 @@ export function AdminPermissionsPage() {
   const [newDescription, setNewDescription] = useState("");
   const [creating, setCreating] = useState(false);
   const [search, setSearch] = useState("");
+  const [showGuide, setShowGuide] = useState(false);
 
   useEffect(() => { loadPermissions(); }, []);
 
@@ -125,38 +127,64 @@ export function AdminPermissionsPage() {
         <Button onClick={() => setShowCreate(!showCreate)}>{showCreate ? "Batal" : <><Plus className="w-4 h-4 mr-2" /> Buat Permission</>}</Button>
       </div>
 
+      <FloatingGuideButton open={showGuide} onClick={() => setShowGuide(!showGuide)} />
+      <Offcanvas open={showGuide} onClose={() => setShowGuide(false)} title="Panduan Permissions">
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-medium text-white">Apa ini?</h4>
+            <p className="text-zinc-400">Katalog kunci toko. <b>Drive:read</b> = Lihat, <b>Drive:write</b> = Edit. Halaman ini cuma bikin daftar kunci, <b>belum ngasih ke siapa-siapa</b>.</p>
+          </div>
+          <div>
+            <h4 className="font-medium text-white">Kapan pakai?</h4>
+            <ul className="list-disc list-inside text-zinc-400 space-y-1">
+              <li><b>Toko (pelanggan tanpa akun):</b> gak usah utak-atik sini — pakai <b>Drive → Share → Link Publik</b> (otomatis pakai kunci di belakang).</li>
+              <li><b>Pegawai toko (punya akun):</b> pegawai A cuma <b>Lihat Drive</b>, pegawai B <b>Lihat + Edit</b> — baru bikin di sini lalu grant di <b>Admin/Users</b> atau <b>Drive Share → Keluarga</b>.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-medium text-white">Contoh toko</h4>
+            <p className="text-zinc-400"><code className="bg-[#1A1A1A] px-1 rounded">Lihat Drive</code> untuk pelanggan lihat file, <code className="bg-[#1A1A1A] px-1 rounded">Edit Drive</code> biar pegawai bisa upload. Sering: <code>Lihat + Edit Drive</code>.</p>
+          </div>
+          <div>
+            <h4 className="font-medium text-white">Akun mana yang dibatasi?</h4>
+            <p className="text-zinc-400">Lihat di <b>Drive → Share</b> (Shared with) atau <b>Admin/Users</b> → klik user → lihat permission yang di-grant. Halaman ini cuma katalog, bukan assignment.</p>
+          </div>
+          <p className="text-xs text-zinc-500">Tips: kalau cuma buat share ke pelanggan via LINK, biarin default (drive:read, drive:write, notes:read/write) — gak perlu tambah.</p>
+        </div>
+      </Offcanvas>
+
       {error && <div className="alert alert-error" role="alert">{error}</div>}
 
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
         <input
           placeholder="Cari permission... (misal drive:read, Notes)"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-3 py-2.5 rounded-xl border dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 bg-white border-slate-200 text-sm"
+          className="w-full pl-10 pr-3 py-2.5 rounded-xl border dark:bg-[#1A1A1A] dark:border-white/[0.04] dark:text-zinc-100 bg-white border-zinc-200 text-sm"
         />
       </div>
 
       {showCreate && (
         <Card>
-          <CardHeader><h2 className="text-lg font-semibold dark:text-slate-100">Buat Permission Baru</h2><p className="text-sm text-slate-500">Pilih Resource + Action, deskripsi otomatis terisi</p></CardHeader>
+          <CardHeader><h2 className="text-lg font-semibold dark:text-zinc-100">Buat Permission Baru</h2><p className="text-sm text-zinc-500">Pilih Resource + Action, deskripsi otomatis terisi</p></CardHeader>
           <CardContent>
             <form onSubmit={handleCreate} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium dark:text-slate-200">Resource</label>
-                  <select value={newResource} onChange={(e) => setNewResource(e.target.value)} className="mt-1 w-full px-3 py-2.5 rounded-xl border dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 bg-white border-slate-200 text-sm">
+                  <label className="text-sm font-medium dark:text-zinc-200">Resource</label>
+                  <select value={newResource} onChange={(e) => setNewResource(e.target.value)} className="mt-1 w-full px-3 py-2.5 rounded-xl border dark:bg-[#1A1A1A] dark:border-white/[0.04] dark:text-zinc-100 bg-white border-zinc-200 text-sm">
                     {RESOURCES.map((r) => <option key={r} value={r}>{r} — {RESOURCE_LABEL[r]?.label}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium dark:text-slate-200">Action</label>
-                  <select value={newAction} onChange={(e) => setNewAction(e.target.value)} className="mt-1 w-full px-3 py-2.5 rounded-xl border dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 bg-white border-slate-200 text-sm">
+                  <label className="text-sm font-medium dark:text-zinc-200">Action</label>
+                  <select value={newAction} onChange={(e) => setNewAction(e.target.value)} className="mt-1 w-full px-3 py-2.5 rounded-xl border dark:bg-[#1A1A1A] dark:border-white/[0.04] dark:text-zinc-100 bg-white border-zinc-200 text-sm">
                     {ACTIONS.map((a) => <option key={a} value={a}>{a}</option>)}
                   </select>
                 </div>
               </div>
-              <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border dark:border-slate-700 border-slate-200 text-sm">
+              <div className="p-3 rounded-lg bg-[#f5f5f5] dark:bg-[#1A1A1A]/50 border dark:border-white/[0.04] border-zinc-200 text-sm">
                 Preview: <code className="font-mono text-blue-500">{newResource}:{newAction}</code> {exists && <span className="text-red-500 ml-2">— sudah ada!</span>}
               </div>
               <Input label="Deskripsi (otomatis, bisa edit)" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} placeholder={autoDesc(newResource, newAction)} />
@@ -167,7 +195,7 @@ export function AdminPermissionsPage() {
       )}
 
       {grouped.length === 0 ? (
-        <Card><CardContent><p className="list-item text-sm text-slate-500 text-center py-8">{search ? `Tidak ada hasil untuk "${search}"` : "Belum ada permission — buat yang pertama di atas"}</p></CardContent></Card>
+        <Card><CardContent className="p-0"><p className="list-item text-sm text-zinc-500 text-center py-8">{search ? `Tidak ada hasil untuk "${search}"` : "Belum ada permission — buat yang pertama di atas"}</p></CardContent></Card>
       ) : (
         grouped.map(([resource, perms]) => (
           <Card key={resource}>
@@ -175,20 +203,23 @@ export function AdminPermissionsPage() {
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center"><Layers className="w-4 h-4 text-blue-500" /></div>
                 <div>
-                  <h3 className="font-semibold dark:text-slate-100 flex items-center gap-2">{RESOURCE_LABEL[resource]?.label || resource} <span className="text-xs font-normal px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500">{perms.length}</span></h3>
-                  <p className="text-xs text-slate-500">{RESOURCE_LABEL[resource]?.desc || resource}</p>
+                  <h3 className="font-semibold dark:text-zinc-100 flex items-center gap-2">{RESOURCE_LABEL[resource]?.label || resource} <span className="text-xs font-normal px-2 py-0.5 rounded-full bg-[#f5f5f5] dark:bg-[#1A1A1A] text-zinc-500">{perms.length}</span></h3>
+                  <p className="text-xs text-zinc-500">{RESOURCE_LABEL[resource]?.desc || resource}</p>
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-0">
               <div className="list-divider">
                 {perms.map((perm) => (
-                  <div key={perm.id} className="list-item flex justify-between items-center">
-                    <div>
-                      <code className="text-sm font-mono text-blue-500">{perm.resource}:{perm.action}</code>
-                      {perm.description && <p className="text-xs text-slate-500 mt-1">{perm.description}</p>}
+                  <div key={perm.id} className="list-item grid grid-cols-[1fr_auto] items-center gap-3">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-white">
+                        {perm.action === "read" ? "Lihat" : perm.action === "write" ? "Edit" : perm.action === "share" ? "Bagikan" : perm.action === "delete" ? "Hapus" : perm.action} {RESOURCE_LABEL[perm.resource]?.label || perm.resource}
+                        <span className="ml-2 text-xs font-mono text-blue-400">({perm.resource}:{perm.action})</span>
+                      </p>
+                      <p className="text-xs text-zinc-500 mt-0.5">{perm.description || autoDesc(perm.resource, perm.action)}</p>
                     </div>
-                    <Button variant="danger" size="sm" onClick={() => handleDelete(perm.id, `${perm.resource}:${perm.action}`)}><Trash2 className="w-4 h-4" /></Button>
+                    <Button className="shrink-0" variant="danger" size="sm" onClick={() => handleDelete(perm.id, `${perm.resource}:${perm.action}`)}><Trash2 className="w-4 h-4" /></Button>
                   </div>
                 ))}
               </div>
@@ -197,7 +228,7 @@ export function AdminPermissionsPage() {
         ))
       )}
 
-      <Card><CardContent className="text-xs text-slate-500">Tips: pakai <code>drive:read</code> untuk toko (pelanggan cuma lihat), <code>drive:write</code> biar bisa edit/upload. Kombinasi yang sering: <code>drive:read + drive:write</code>, <code>notes:read + notes:write</code></CardContent></Card>
+      <Card><CardContent className="text-xs text-zinc-500 space-y-1"><p><b>Cara pakai untuk toko:</b> <span className="text-white">Lihat Drive</span> = pelanggan boleh lihat file, <span className="text-white">Edit Drive</span> = boleh upload/edit.</p><p>Kombinasi sering: <code className="bg-[#1A1A1A] px-1 rounded">Lihat + Edit Drive</code> atau <code className="bg-[#1A1A1A] px-1 rounded">Lihat + Edit Notes</code></p></CardContent></Card>
     </div>
   );
 }

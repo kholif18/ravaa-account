@@ -95,12 +95,12 @@ export function RegisterPage() {
             <div className="h-14 w-14 rounded-full bg-green-500/10 flex items-center justify-center mb-4">
               <CheckCircle className="h-7 w-7 text-green-500" />
             </div>
-            <p className="text-sm font-medium text-slate-700 dark:text-slate-200">Akun Ravaa kamu sudah aktif dan dapat digunakan.</p>
-            <p className="text-sm text-slate-600 dark:text-slate-300 mt-3">
+            <p className="text-sm font-medium text-zinc-300 dark:text-zinc-200">Akun Ravaa kamu sudah aktif dan dapat digunakan.</p>
+            <p className="text-sm text-zinc-400 dark:text-zinc-300 mt-3">
               Kami telah mengirim email verifikasi ke
             </p>
             <p className="font-semibold text-[var(--accent)] mt-1">{registeredEmail}</p>
-            <p className="text-sm text-slate-500 mt-3">Verifikasi email disarankan untuk meningkatkan keamanan akun. Link berlaku 24 jam.</p>
+            <p className="text-sm text-zinc-500 mt-3">Verifikasi email disarankan untuk meningkatkan keamanan akun. Link berlaku 24 jam.</p>
           </div>
           {resendMsg && (
             <div className="flex items-start gap-2 p-3 rounded-xl border border-green-500/20 bg-green-500/10 text-sm text-green-700 dark:text-green-400">
@@ -111,7 +111,7 @@ export function RegisterPage() {
             <Link to="/app" className="auth-submit justify-center no-underline text-center">
               Masuk ke Ravaa Account
             </Link>
-            <button onClick={handleResend} disabled={resendLoading} className="w-full py-2 text-sm font-medium rounded-xl border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+            <button onClick={handleResend} disabled={resendLoading} className="w-full py-2 text-sm font-medium rounded-xl border dark:border-white/[0.04] border-zinc-200 dark:text-zinc-300 text-zinc-400 hover:bg-[#f5f5f5] dark:hover:bg-[#1A1A1A] transition-colors flex items-center justify-center gap-2">
               {resendLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Mail className="h-4 w-4" />} Kirim ulang email verifikasi
             </button>
           </div>

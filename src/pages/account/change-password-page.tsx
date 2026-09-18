@@ -72,7 +72,7 @@ export function ChangePasswordPage() {
           <p className="page-subtitle">Update your account password</p>
         </div>
         <Link to="/app/security">
-          <button className="px-4 py-2 text-sm font-medium rounded-lg dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800/50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors">
+          <button className="px-4 py-2 text-sm font-medium rounded-lg dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-[#1A1A1A]/50 text-zinc-400 hover:text-white hover:bg-[#f5f5f5] transition-colors">
             Back
           </button>
         </Link>
@@ -84,7 +84,7 @@ export function ChangePasswordPage() {
             <div className="icon-chip">
               <Key />
             </div>
-            <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+            <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
               Change Password
             </h2>
           </div>
@@ -117,7 +117,7 @@ export function ChangePasswordPage() {
               <button
                 type="button"
                 onClick={() => setShowCurrent(!showCurrent)}
-                className="absolute right-3 top-[34px] text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                className="absolute right-3 top-[34px] text-zinc-400 hover:text-zinc-400 dark:hover:text-zinc-300"
                 tabIndex={-1}
               >
                 {showCurrent ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -137,7 +137,7 @@ export function ChangePasswordPage() {
               <button
                 type="button"
                 onClick={() => setShowNew(!showNew)}
-                className="absolute right-3 top-[34px] text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                className="absolute right-3 top-[34px] text-zinc-400 hover:text-zinc-400 dark:hover:text-zinc-300"
                 tabIndex={-1}
               >
                 {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -154,7 +154,7 @@ export function ChangePasswordPage() {
               required
             />
 
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-zinc-500">
               Password must be at least 8 characters. For security, other sessions are not automatically revoked — manage them in Sessions.
             </p>
 

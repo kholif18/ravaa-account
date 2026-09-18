@@ -84,20 +84,20 @@ export function PreferencesPage() {
               <div className="icon-chip">
                 <Globe />
               </div>
-              <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+              <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
                 Localization
               </h2>
             </div>
           </CardHeader>
           <CardContent className="space-y-5">
             <div>
-              <label className="block text-sm font-medium dark:text-slate-200 text-slate-700 mb-2">
+              <label className="block text-sm font-medium dark:text-zinc-200 text-zinc-300 mb-2">
                 Language
               </label>
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg text-sm dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 bg-white border-slate-200 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 rounded-lg text-sm dark:bg-[#1A1A1A] dark:border-white/[0.04] dark:text-zinc-200 bg-white border-zinc-200 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="en">English</option>
                 <option value="es">Español</option>
@@ -109,13 +109,13 @@ export function PreferencesPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium dark:text-slate-200 text-slate-700 mb-2">
+              <label className="block text-sm font-medium dark:text-zinc-200 text-zinc-300 mb-2">
                 Timezone
               </label>
               <select
                 value={timezone}
                 onChange={(e) => setTimezone(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg text-sm dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 bg-white border-slate-200 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 rounded-lg text-sm dark:bg-[#1A1A1A] dark:border-white/[0.04] dark:text-zinc-200 bg-white border-zinc-200 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="UTC">UTC</option>
                 <option value="America/New_York">America/New_York</option>
@@ -137,7 +137,7 @@ export function PreferencesPage() {
               <div className="icon-chip">
                 <Bell />
               </div>
-              <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+              <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
                 Notifications
               </h2>
             </div>
@@ -180,8 +180,8 @@ function ToggleSwitch({
   return (
     <div className="flex items-start justify-between gap-4">
       <div className="flex-1">
-        <p className="text-sm font-medium dark:text-slate-200 text-slate-900">{label}</p>
-        <p className="text-sm text-slate-500 mt-0.5">{description}</p>
+        <p className="text-sm font-medium dark:text-zinc-200 text-white">{label}</p>
+        <p className="text-sm text-zinc-500 mt-0.5">{description}</p>
       </div>
       <button
         type="button"
@@ -190,7 +190,7 @@ function ToggleSwitch({
           "relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0",
           checked
             ? "bg-blue-600"
-            : "bg-slate-200 dark:bg-slate-700",
+            : "bg-slate-200 dark:bg-[#232323]",
         )}
         role="switch"
         aria-checked={checked}

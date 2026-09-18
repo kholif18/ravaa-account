@@ -145,7 +145,7 @@ export function LoginPage() {
               {resendLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
               Kirim ulang email verifikasi
             </button>
-            {resendMsg && <span className="text-slate-500">{resendMsg}</span>}
+            {resendMsg && <span className="text-zinc-500">{resendMsg}</span>}
           </div>
         )}
 
@@ -251,7 +251,7 @@ export function LoginPage() {
             if (identifier.includes("@")) setPendingEmail(identifier);
             else setPendingEmail(identifier);
           }}
-          className="text-sm text-slate-500 hover:text-[var(--accent)]"
+          className="text-sm text-zinc-500 hover:text-[var(--accent)]"
         >
           Belum dapat email verifikasi?
         </button>

@@ -7,7 +7,7 @@ export function AppLayout() {
 
   if (state.status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center dark:bg-slate-900 bg-slate-50">
+      <div className="min-h-screen flex items-center justify-center dark:bg-[#2B2A33] bg-[#f5f5f5]">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500" />
       </div>
     );

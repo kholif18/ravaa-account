@@ -30,7 +30,7 @@ export function ProfilePage() {
 
       <Card>
         <CardHeader>
-          <h2 className="text-lg font-semibold dark:text-slate-100 text-slate-900">
+          <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
             Account Details
           </h2>
         </CardHeader>
@@ -42,40 +42,40 @@ export function ProfilePage() {
               </span>
             </div>
             <div>
-              <p className="text-lg font-medium dark:text-slate-100 text-slate-900">
+              <p className="text-lg font-medium dark:text-zinc-100 text-white">
                 {user.displayName || user.username}
               </p>
-              <p className="text-sm text-slate-500">@{user.username}</p>
+              <p className="text-sm text-zinc-500">@{user.username}</p>
             </div>
           </div>
 
-          <div className="border-t dark:border-slate-700/30 border-slate-200/50 pt-4 space-y-3">
+          <div className="border-t dark:border-white/[0.04]/30 border-zinc-200/50 pt-4 space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-slate-500">Email</span>
-              <span className="text-sm dark:text-slate-200 text-slate-900">
+              <span className="text-sm text-zinc-500">Email</span>
+              <span className="text-sm dark:text-zinc-200 text-white">
                 {user.email}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-slate-500">Role</span>
+              <span className="text-sm text-zinc-500">Role</span>
               <Badge variant={roleVariant}>{user.role}</Badge>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-slate-500">Status</span>
+              <span className="text-sm text-zinc-500">Status</span>
               <Badge variant={statusVariant}>{user.status}</Badge>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-slate-500">Email Verified</span>
+              <span className="text-sm text-zinc-500">Email Verified</span>
               <span className="text-sm flex items-center gap-1.5">
                 {user.emailVerifiedAt ? (
                   <>
                     <CheckCircle className="h-4 w-4 text-green-500" />
-                    <span className="dark:text-slate-200 text-slate-900">Terverifikasi</span>
+                    <span className="dark:text-zinc-200 text-white">Terverifikasi</span>
                   </>
                 ) : (
                   <>
                     <AlertTriangle className="h-4 w-4 text-amber-500" />
-                    <span className="dark:text-slate-200 text-slate-900">Belum terverifikasi</span>
+                    <span className="dark:text-zinc-200 text-white">Belum terverifikasi</span>
                   </>
                 )}
               </span>
@@ -84,8 +84,8 @@ export function ProfilePage() {
               <EmailVerificationBanner email={user.email} />
             )}
             <div className="flex justify-between items-center">
-              <span className="text-sm text-slate-500">Member Since</span>
-              <span className="text-sm dark:text-slate-200 text-slate-900">
+              <span className="text-sm text-zinc-500">Member Since</span>
+              <span className="text-sm dark:text-zinc-200 text-white">
                 {new Date(user.createdAt).toLocaleDateString()}
               </span>
             </div>
@@ -122,7 +122,7 @@ function EmailVerificationBanner({ email }: { email: string }) {
         {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
         Kirim ulang email verifikasi
       </button>
-      {msg && <p className="text-sm text-slate-500">{msg}</p>}
+      {msg && <p className="text-sm text-zinc-500">{msg}</p>}
     </div>
   );
 }

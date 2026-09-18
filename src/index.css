@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* Make `dark:` utilities respond to the `dark` class on <html>,
    not the OS prefers-color-scheme media query. ThemeProvider toggles
@@ -12,15 +13,19 @@
   --color-card-border: var(--card-border);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+  --color-slate-950: #0A0A0A;
+  --color-slate-900: #0A0A0A;
+  --color-slate-800: #141414;
+  --color-slate-700: #232323;
 }
 
 :root,
 .dark {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --card-bg: #1e293b;
-  --card-border: #334155;
-  --muted: #64748b;
+  --background: #0A0A0A;
+  --foreground: #ededed;
+  --card-bg: #1B1B1B;
+  --card-border: rgba(255,255,255,0.06);
+  --muted: #a1a1aa;
   --accent: #3b82f6;
 }
 
@@ -476,16 +481,26 @@ button:focus-visible {
   border-bottom-color: rgba(226, 232, 240, 0.5);
 }
 
+.list-divider {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.list-divider > * {
+  list-style: none;
+}
 .list-item {
-  padding: 1rem 0; /* py-4 */
+  padding: 1rem; /* p-4 all sides — was 1rem 0, bikin mepet */
+  list-style: none;
 }
-
+.list-item::marker {
+  content: none;
+}
 .list-item:first-child {
-  padding-top: 0;
+  padding-top: 1rem;
 }
-
 .list-item:last-child {
-  padding-bottom: 0;
+  padding-bottom: 1rem;
 }
 
 /* Icon chip */

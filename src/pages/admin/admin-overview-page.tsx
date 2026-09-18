@@ -32,10 +32,10 @@ export function AdminOverviewPage() {
                   <AppWindow />
                 </div>
                 <div>
-                  <h3 className="font-semibold dark:text-slate-100 text-slate-900">
+                  <h3 className="font-semibold dark:text-zinc-100 text-white">
                     Applications
                   </h3>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-zinc-500">
                     Create, configure, and manage registered applications
                   </p>
                 </div>
@@ -52,10 +52,10 @@ export function AdminOverviewPage() {
                   <Lock />
                 </div>
                 <div>
-                  <h3 className="font-semibold dark:text-slate-100 text-slate-900">
+                  <h3 className="font-semibold dark:text-zinc-100 text-white">
                     Permissions
                   </h3>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-zinc-500">
                     Manage the permission catalogue and resource grants
                   </p>
                 </div>
@@ -72,10 +72,10 @@ export function AdminOverviewPage() {
                   <Users />
                 </div>
                 <div>
-                  <h3 className="font-semibold dark:text-slate-100 text-slate-900">
+                  <h3 className="font-semibold dark:text-zinc-100 text-white">
                     Users & Storage
                   </h3>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-zinc-500">
                     Kelola user dan kapasitas storage per user (dynamic)
                   </p>
                 </div>

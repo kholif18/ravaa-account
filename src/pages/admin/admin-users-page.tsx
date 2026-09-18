@@ -79,11 +79,11 @@ export function AdminUsersPage() {
                   {(u.displayName || u.username).charAt(0).toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium dark:text-slate-100 truncate">{u.displayName || u.username} <Badge variant={u.role === "ADMIN" ? "warning" : "default"}>{u.role}</Badge></p>
-                  <p className="text-sm text-slate-500 truncate">{u.email} · @{u.username}</p>
+                  <p className="font-medium dark:text-zinc-100 truncate">{u.displayName || u.username} <Badge variant={u.role === "ADMIN" ? "warning" : "default"}>{u.role}</Badge></p>
+                  <p className="text-sm text-zinc-500 truncate">{u.email} · @{u.username}</p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <HardDrive className="w-4 h-4 text-slate-400" />
+                  <HardDrive className="w-4 h-4 text-zinc-400" />
                   <input
                     value={editing[u.id] || ""}
                     onChange={(e) => setEditing({ ...editing, [u.id]: e.target.value })}
@@ -91,9 +91,9 @@ export function AdminUsersPage() {
                     step="0.5"
                     min="1"
                     max="1024"
-                    className="w-20 px-2 py-1 text-sm rounded border dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
+                    className="w-20 px-2 py-1 text-sm rounded border dark:bg-[#1A1A1A] dark:border-white/[0.04] dark:text-zinc-100"
                   />
-                  <span className="text-sm text-slate-500">GB</span>
+                  <span className="text-sm text-zinc-500">GB</span>
                   <Button size="sm" onClick={() => handleSave(u.id)} loading={saving === u.id}>
                     <Save className="w-4 h-4" />
                   </Button>
@@ -106,7 +106,7 @@ export function AdminUsersPage() {
 
       <Card>
         <CardHeader><h3 className="font-semibold">Info</h3></CardHeader>
-        <CardContent className="text-sm text-slate-500">
+        <CardContent className="text-sm text-zinc-500">
           Storage dihitung on-the-fly di Drive (<code>SUM File.fileSize</code> per user). Limit disimpan di service per-user. Default 5GB, admin 10GB. Ubah di sini, langsung refleksi di <code>/drive/storage</code>.
         </CardContent>
       </Card>
