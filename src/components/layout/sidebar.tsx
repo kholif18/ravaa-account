@@ -16,6 +16,7 @@ import {
   Lock,
   Users,
   HardDrive,
+  KeyRound,
 } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { useTheme } from "../providers/theme-provider";
@@ -44,6 +45,7 @@ const securitySubNav: NavItem[] = [
   { to: "/app/security/password", label: "Password", icon: Lock },
   { to: "/app/security/2fa", label: "2FA", icon: Shield },
   { to: "/app/security/recovery", label: "Recovery", icon: Shield },
+  { to: "/app/security/passkeys", label: "Passkeys", icon: KeyRound },
   { to: "/app/security/app-passwords", label: "App Passwords", icon: Puzzle },
 ];
 

@@ -76,6 +76,33 @@ export function SecurityPage() {
         </CardContent>
       </Card>
 
+      {/* Passkeys */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-3">
+            <div className="icon-chip">
+              <Key />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
+                Passkeys
+              </h2>
+            </div>
+            <Badge variant="success">New</Badge>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-zinc-500 mb-4">
+            Login without password using Touch ID / Face ID / Windows Hello — like Google.
+          </p>
+          <Link to="/app/security/passkeys">
+            <button className="auth-submit max-w-[200px]">
+              Manage Passkeys
+            </button>
+          </Link>
+        </CardContent>
+      </Card>
+
       {/* Recovery Options */}
       <Card>
         <CardHeader>

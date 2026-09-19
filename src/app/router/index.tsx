@@ -15,6 +15,7 @@ import { ApplicationsPage } from "../../pages/account/applications-page";
 import { TwoFactorPage } from "../../pages/account/two-factor-page";
 import { RecoveryPage } from "../../pages/account/recovery-page";
 import { ChangePasswordPage } from "../../pages/account/change-password-page";
+import { PasskeysPage } from "../../pages/account/passkeys-page";
 import { AppPasswordsPage } from "../../pages/account/app-passwords-page";
 import { PreferencesPage } from "../../pages/account/preferences-page";
 import { DataPrivacyPage } from "../../pages/account/data-privacy-page";
@@ -72,6 +73,7 @@ export const router = createBrowserRouter([
       { path: "security/password", element: <ChangePasswordPage /> },
       { path: "security/2fa", element: <TwoFactorPage /> },
       { path: "security/recovery", element: <RecoveryPage /> },
+      { path: "security/passkeys", element: <PasskeysPage /> },
       { path: "security/app-passwords", element: <AppPasswordsPage /> },
       { path: "sessions", element: <SessionsPage /> },
       { path: "applications", element: HOME_HIDE_ADMIN ? <Navigate to="/app" replace /> : <ApplicationsPage /> },
