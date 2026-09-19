@@ -52,6 +52,7 @@ const securitySubNav: NavItem[] = [
 const settingsNav: NavItem[] = [
   ...(!HOME_HIDE_ADMIN ? [{ to: "/app/applications", label: "Applications", icon: Puzzle } as NavItem] : []),
   { to: "/app/activity", label: "Activity", icon: Clock },
+  { to: "/app/takeout", label: "Takeout", icon: HardDrive },
   { to: "/app/preferences", label: "Preferences", icon: Settings },
   { to: "/app/data-privacy", label: "Data & Privacy", icon: Shield },
 ];

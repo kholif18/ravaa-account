@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardHeader, CardContent } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
+import { Link } from "react-router-dom";
 import {
   AlertCircle,
   Shield,
@@ -13,6 +14,7 @@ import {
   Loader2,
   Eye,
   EyeOff,
+  Package,
 } from "lucide-react";
 import * as meApi from "../../lib/api/me";
 import { useAuth } from "../../auth/auth-provider";
@@ -130,6 +132,18 @@ export function DataPrivacyPage() {
               Export
             </Button>
           </div>
+          <Link to="/app/takeout" className="flex items-center justify-between p-4 bg-emerald-500/10 rounded-lg border border-emerald-500/20 hover:bg-emerald-500/15 transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-emerald-500/20">
+                <Package className="w-5 h-5 text-emerald-400" />
+              </div>
+              <div>
+                <p className="font-medium dark:text-zinc-100 text-white">Takeout ZIP (Drive+Notes+Account)</p>
+                <p className="text-sm text-zinc-500">Google Takeout style — 1 zip untuk backup toko</p>
+              </div>
+            </div>
+            <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Buka →</span>
+          </Link>
         </CardContent>
       </Card>
 
