@@ -152,11 +152,28 @@ export function ProfileEditPage() {
                 </span>
               )}
             </div>
-            <div className="space-y-1">
+            <div className="space-y-1 flex-1">
               <p className="font-medium dark:text-zinc-100 text-white">
                 {user.displayName || user.username}
               </p>
               <p className="text-sm text-zinc-500">@{user.username} • {user.email}</p>
+              <label className="inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg bg-white dark:bg-[#1A1A1A] border border-zinc-200 dark:border-white/[0.04] cursor-pointer hover:bg-zinc-50 dark:hover:bg-[#232323]">
+                <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  if (file.size > 2 * 1024 * 1024) { setGeneralError("Max 2MB"); return; }
+                  const fd = new FormData();
+                  fd.append("avatar", file);
+                  try {
+                    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/me/avatar`, { method: "POST", body: fd, credentials: "include" });
+                    const data: any = await res.json();
+                    if (data.avatarUrl) setAvatarUrl(data.avatarUrl);
+                    else if (data.user?.avatarUrl) setAvatarUrl(data.user.avatarUrl);
+                    else setGeneralError(data.error?.message || "Upload gagal");
+                  } catch { setGeneralError("Upload gagal"); }
+                }} />
+                Upload avatar (max 2MB) — crop otomatis
+              </label>
             </div>
           </div>
 
