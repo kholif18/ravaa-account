@@ -22,7 +22,6 @@ import { DataPrivacyPage } from "../../pages/account/data-privacy-page";
 import { ActivityPage } from "../../pages/account/activity-page";
 import { TakeoutPage } from "../../pages/account/takeout-page";
 import { PeopleSharingPage } from "../../pages/account/people-sharing-page";
-import { PaymentsPage } from "../../pages/account/payments-page";
 import { AdminOverviewPage } from "../../pages/admin/admin-overview-page";
 import { AdminApplicationsPage } from "../../pages/admin/admin-applications-page";
 import { AdminPermissionsPage } from "../../pages/admin/admin-permissions-page";
@@ -86,7 +85,6 @@ export const router = createBrowserRouter([
       { path: "activity", element: <ActivityPage /> },
       { path: "takeout", element: <TakeoutPage /> },
       { path: "people", element: <PeopleSharingPage /> },
-      { path: "payments", element: <PaymentsPage /> },
     ],
   },
   {

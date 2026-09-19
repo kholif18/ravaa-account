@@ -39,7 +39,6 @@ const accountNav: NavItem[] = [
   { to: "/app/profile", label: "Profile", icon: User },
   { to: "/app/security", label: "Security", icon: Shield },
   { to: "/app/people", label: "People & Sharing", icon: Users },
-  { to: "/app/payments", label: "Payments", icon: HardDrive },
   { to: "/app/sessions", label: "Sessions", icon: Clock },
 ];
 
