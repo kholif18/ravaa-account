@@ -4,7 +4,7 @@ import { useAuth } from "../../auth/auth-provider";
 import { Card, CardHeader, CardContent } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";
-import { CheckCircle, AlertTriangle, Loader2, Pencil } from "lucide-react";
+import { CheckCircle, AlertTriangle, Loader2, Pencil, Lock, Shield } from "lucide-react";
 import { resendVerification } from "../../lib/api/auth";
 import { ApiClientError } from "../../lib/api/client";
 
@@ -101,6 +101,20 @@ export function ProfilePage() {
               </span>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="flex flex-wrap gap-2 py-4">
+          <Link to="/app/profile/edit">
+            <Button size="sm"><Pencil className="w-4 h-4" /> Edit Profile</Button>
+          </Link>
+          <Link to="/app/security/password">
+            <Button size="sm" variant="secondary"><Lock className="w-4 h-4" /> Ganti Password</Button>
+          </Link>
+          <Link to="/app/security">
+            <Button size="sm" variant="secondary"><Shield className="w-4 h-4" /> Security</Button>
+          </Link>
         </CardContent>
       </Card>
     </div>
