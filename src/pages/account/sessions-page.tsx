@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
 import * as sessionsApi from "../../lib/api/sessions";
 import type { Session } from "../../types";
-import { Monitor, Smartphone, Globe } from "lucide-react";
+import { Monitor, Smartphone, Globe, Shield, MapPin } from "lucide-react";
 
 export function SessionsPage() {
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -67,16 +68,23 @@ export function SessionsPage() {
     );
   }
 
+  const currentId = sessions[0]?.id;
+
   return (
     <div className="page">
       <div className="page-header-row">
         <div className="page-header">
-          <h1 className="page-title">Sessions</h1>
-          <p className="page-subtitle">Manage your active sessions</p>
+          <h1 className="page-title flex items-center gap-2"><Shield className="w-5 h-5" /> Sessions</h1>
+          <p className="page-subtitle">Recent activity & Your devices — kayak Google (IP + device + last active)</p>
         </div>
         <Button variant="danger" size="sm" onClick={handleRevokeAll}>
           Revoke All
         </Button>
+      </div>
+
+      <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-sm text-blue-700 dark:text-blue-300 flex items-start gap-2">
+        <Shield className="w-4 h-4 mt-0.5" />
+        <span>Jika ada sesi yang tidak kamu kenali, segera <strong>Revoke</strong> — was it you?</span>
       </div>
 
       {error && (
@@ -88,41 +96,36 @@ export function SessionsPage() {
       <Card>
         <CardContent className="p-0">
           <div className="list-divider">
-            {sessions.map((session) => (
-              <div key={session.id} className="list-item">
-                <div className="flex justify-between items-start">
-                  <div className="flex items-start gap-3">
-                    <div className="icon-chip neutral">
-                      {getDeviceIcon(session.deviceType)}
+            {sessions.map((session) => {
+              const isCurrent = session.id === currentId;
+              return (
+                <div key={session.id} className="list-item">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-start gap-3">
+                      <div className={`icon-chip ${isCurrent ? "bg-emerald-500/20 text-emerald-400" : "neutral"}`}>
+                        {getDeviceIcon(session.deviceType)}
+                      </div>
+                      <div>
+                        <p className="font-medium dark:text-zinc-100 text-white flex items-center gap-2">
+                          {session.deviceName || session.deviceType || "Unknown Device"}
+                          {isCurrent && <Badge variant="success">Current</Badge>}
+                        </p>
+                        <p className="text-sm text-zinc-500 flex items-center gap-1">
+                          <MapPin className="w-3 h-3" /> {session.ipAddress || "Unknown IP"} {isCurrent && "• This device"}
+                        </p>
+                        <p className="text-xs text-zinc-400 mt-1">
+                          Last active: {session.lastActiveAt ? new Date(session.lastActiveAt).toLocaleString() : "Never"} {isCurrent && "• now"}
+                        </p>
+                        <p className="text-xs text-zinc-400">Expires: {new Date(session.expiresAt).toLocaleString()}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium dark:text-zinc-100 text-white">
-                        {session.deviceName || session.deviceType || "Unknown Device"}
-                      </p>
-                      <p className="text-sm text-zinc-500">
-                        {session.ipAddress || "Unknown IP"}
-                      </p>
-                      <p className="text-xs text-zinc-400 mt-1">
-                        Last active:{" "}
-                        {session.lastActiveAt
-                          ? new Date(session.lastActiveAt).toLocaleString()
-                          : "Never"}
-                      </p>
-                      <p className="text-xs text-zinc-400">
-                        Expires: {new Date(session.expiresAt).toLocaleString()}
-                      </p>
-                    </div>
+                    <Button variant="ghost" size="sm" onClick={() => handleRevokeSession(session.id)} disabled={isCurrent}>
+                      {isCurrent ? "Current" : "Revoke"}
+                    </Button>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleRevokeSession(session.id)}
-                  >
-                    Revoke
-                  </Button>
                 </div>
-              </div>
-            ))}
+              );
+            })}
             {sessions.length === 0 && (
               <p className="list-item text-sm text-zinc-500 text-center">
                 No active sessions
