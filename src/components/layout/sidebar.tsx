@@ -38,7 +38,15 @@ const accountNav: NavItem[] = [
   { to: "/app/profile", label: "Profile", icon: User },
   { to: "/app/security", label: "Security", icon: Shield },
   { to: "/app/sessions", label: "Sessions", icon: Clock },
-  // Applications hidden di HOME (enterprise only) — ShareLink ada di Drive
+];
+
+const securitySubNav: NavItem[] = [
+  { to: "/app/security/password", label: "Password", icon: Lock },
+  { to: "/app/security/2fa", label: "2FA", icon: Shield },
+  { to: "/app/security/recovery", label: "Recovery", icon: Shield },
+];
+
+const settingsNav: NavItem[] = [
   ...(!HOME_HIDE_ADMIN ? [{ to: "/app/applications", label: "Applications", icon: Puzzle } as NavItem] : []),
   { to: "/app/preferences", label: "Preferences", icon: Settings },
   { to: "/app/data-privacy", label: "Data & Privacy", icon: Shield },
@@ -46,8 +54,8 @@ const accountNav: NavItem[] = [
 
 const adminNav: NavItem[] = [
   { to: "/admin", label: "Overview", icon: Settings, exact: true, admin: true },
-  { to: "/admin/users", label: "Users & Storage", icon: Users, admin: true },
-  { to: "/admin/storage", label: "Storage Disks", icon: HardDrive, admin: true },
+  { to: "/admin/users", label: "Users", icon: Users, admin: true },
+  { to: "/admin/storage", label: "Disks", icon: HardDrive, admin: true },
   ...(!HOME_HIDE_ADMIN ? [
     { to: "/admin/applications", label: "Applications", icon: AppWindow, admin: true },
     { to: "/admin/permissions", label: "Permissions", icon: Lock, admin: true },
@@ -104,17 +112,45 @@ export function Sidebar() {
 
       {/* Nav */}
       <nav className="app-sidebar-nav">
-        {!collapsed && (
-          <p className="app-sidebar-section-label">Account</p>
-        )}
-        {accountNav.map((item) => (
+        {!collapsed && <p className="app-sidebar-section-label">General</p>}
+        {accountNav.map((item) => {
+          const active = isActive(item.to, item.exact);
+          const isSecurity = item.to === "/app/security";
+          const showSub = isSecurity && (active || location.pathname.startsWith("/app/security/"));
+          return (
+            <div key={item.to}>
+              <Link
+                to={item.to}
+                className={cn("app-sidebar-item", active && "is-active")}
+                title={collapsed ? item.label : undefined}
+              >
+                <item.icon />
+                {!collapsed && <span>{item.label}</span>}
+              </Link>
+              {!collapsed && showSub && (
+                <div className="ml-4 pl-3 border-l border-white/[0.06] space-y-0.5 mt-0.5">
+                  {securitySubNav.map((sub) => (
+                    <Link
+                      key={sub.to}
+                      to={sub.to}
+                      className={cn("app-sidebar-item !py-1.5 !text-xs", isActive(sub.to) && "is-active")}
+                    >
+                      <sub.icon className="w-3.5 h-3.5" />
+                      <span>{sub.label}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
+
+        {!collapsed && <p className="app-sidebar-section-label mt-3">Settings</p>}
+        {settingsNav.map((item) => (
           <Link
             key={item.to}
             to={item.to}
-            className={cn(
-              "app-sidebar-item",
-              isActive(item.to, item.exact) && "is-active"
-            )}
+            className={cn("app-sidebar-item", isActive(item.to, item.exact) && "is-active")}
             title={collapsed ? item.label : undefined}
           >
             <item.icon />
@@ -124,17 +160,12 @@ export function Sidebar() {
 
         {isAdmin && (
           <>
-            {!collapsed && (
-              <p className="app-sidebar-section-label">Administration</p>
-            )}
+            {!collapsed && <p className="app-sidebar-section-label mt-3">Administration</p>}
             {adminNav.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
-                className={cn(
-                  "app-sidebar-item is-admin",
-                  isActive(item.to, item.exact) && "is-active"
-                )}
+                className={cn("app-sidebar-item is-admin", isActive(item.to, item.exact) && "is-active")}
                 title={collapsed ? item.label : undefined}
               >
                 <item.icon />
