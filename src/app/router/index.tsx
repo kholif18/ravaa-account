@@ -19,6 +19,7 @@ import { PasskeysPage } from "../../pages/account/passkeys-page";
 import { AppPasswordsPage } from "../../pages/account/app-passwords-page";
 import { PreferencesPage } from "../../pages/account/preferences-page";
 import { DataPrivacyPage } from "../../pages/account/data-privacy-page";
+import { ActivityPage } from "../../pages/account/activity-page";
 import { AdminOverviewPage } from "../../pages/admin/admin-overview-page";
 import { AdminApplicationsPage } from "../../pages/admin/admin-applications-page";
 import { AdminPermissionsPage } from "../../pages/admin/admin-permissions-page";
@@ -79,6 +80,7 @@ export const router = createBrowserRouter([
       { path: "applications", element: HOME_HIDE_ADMIN ? <Navigate to="/app" replace /> : <ApplicationsPage /> },
       { path: "preferences", element: <PreferencesPage /> },
       { path: "data-privacy", element: <DataPrivacyPage /> },
+      { path: "activity", element: <ActivityPage /> },
     ],
   },
   {
