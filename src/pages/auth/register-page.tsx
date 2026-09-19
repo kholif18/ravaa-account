@@ -123,7 +123,8 @@ export function RegisterPage() {
   return (
     <div className="auth-card">
       {/* Mobile logo — desktop shows branding in the layout */}
-      <div className="auth-card-header lg:hidden">
+      <div className="auth-card-header lg:hidden flex flex-col items-center gap-2">
+        <img src="/logo.svg" alt="Ravaa" className="w-10 h-10" />
         <h1 className="auth-card-title !text-2xl">
           Ravaa <span className="auth-accent">Account</span>
         </h1>

@@ -6,7 +6,7 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import * as permissionsApi from "../../lib/api/permissions";
 import type { Permission } from "../../types";
-import { Plus, Trash2, Search, Shield, Layers, HelpCircle } from "lucide-react";
+import { Plus, Trash2, Search, Shield, Layers } from "lucide-react";
 import { Offcanvas, FloatingGuideButton } from "../../components/ui/offcanvas";
 
 const RESOURCES = ["drive", "notes", "photos", "admin", "user"] as const;

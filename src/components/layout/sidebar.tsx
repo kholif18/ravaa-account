@@ -84,7 +84,8 @@ export function Sidebar() {
       {/* Logo */}
       <div className="app-sidebar-header">
         {!collapsed && (
-          <Link to="/app" className="app-sidebar-logo">
+          <Link to="/app" className="app-sidebar-logo flex items-center gap-2">
+            <img src="/logo.svg" alt="Ravaa" className="w-7 h-7 shrink-0" />
             <span className="app-sidebar-logo-1">Ravaa</span>
             <span className="app-sidebar-logo-2">Account</span>
             {HOME_HIDE_ADMIN && (
@@ -94,7 +95,7 @@ export function Sidebar() {
         )}
         {collapsed && (
           <Link to="/app" className="mx-auto app-sidebar-logo">
-            <span className="app-sidebar-logo-1">R</span>
+            <img src="/logo.svg" alt="Ravaa" className="w-7 h-7" />
           </Link>
         )}
       </div>
