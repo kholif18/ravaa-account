@@ -44,6 +44,7 @@ const securitySubNav: NavItem[] = [
   { to: "/app/security/password", label: "Password", icon: Lock },
   { to: "/app/security/2fa", label: "2FA", icon: Shield },
   { to: "/app/security/recovery", label: "Recovery", icon: Shield },
+  { to: "/app/security/app-passwords", label: "App Passwords", icon: Puzzle },
 ];
 
 const settingsNav: NavItem[] = [

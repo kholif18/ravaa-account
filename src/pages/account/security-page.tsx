@@ -102,6 +102,33 @@ export function SecurityPage() {
         </CardContent>
       </Card>
 
+      {/* App Passwords */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-3">
+            <div className="icon-chip">
+              <Key />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
+                App Passwords
+              </h2>
+            </div>
+            <Badge variant="warning">For Android</Badge>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-zinc-500 mb-4">
+            Create separate passwords for Drive Android sync without using your main password.
+          </p>
+          <Link to="/app/security/app-passwords">
+            <button className="auth-submit max-w-[200px]">
+              Manage App Passwords
+            </button>
+          </Link>
+        </CardContent>
+      </Card>
+
       {/* Active Sessions quick link */}
       <Card>
         <CardHeader>
