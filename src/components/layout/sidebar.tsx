@@ -15,6 +15,7 @@ import {
   AppWindow,
   Lock,
   Users,
+  HardDrive,
 } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { useTheme } from "../providers/theme-provider";
@@ -46,6 +47,7 @@ const accountNav: NavItem[] = [
 const adminNav: NavItem[] = [
   { to: "/admin", label: "Overview", icon: Settings, exact: true, admin: true },
   { to: "/admin/users", label: "Users & Storage", icon: Users, admin: true },
+  { to: "/admin/storage", label: "Storage Disks", icon: HardDrive, admin: true },
   ...(!HOME_HIDE_ADMIN ? [
     { to: "/admin/applications", label: "Applications", icon: AppWindow, admin: true },
     { to: "/admin/permissions", label: "Permissions", icon: Lock, admin: true },

@@ -21,6 +21,7 @@ import { AdminOverviewPage } from "../../pages/admin/admin-overview-page";
 import { AdminApplicationsPage } from "../../pages/admin/admin-applications-page";
 import { AdminPermissionsPage } from "../../pages/admin/admin-permissions-page";
 import { AdminUsersPage } from "../../pages/admin/admin-users-page";
+import { AdminStoragePage } from "../../pages/admin/admin-storage-page";
 
 // HOME mode: hide Enterprise admin — set VITE_HOME_HIDE_ADMIN=false untuk business mode
 const HOME_HIDE_ADMIN = import.meta.env.VITE_HOME_HIDE_ADMIN !== "false";
@@ -86,6 +87,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminOverviewPage /> },
       { path: "users", element: <AdminUsersPage /> },
+      { path: "storage", element: <AdminStoragePage /> },
       { path: "applications", element: <HomeGuard><AdminApplicationsPage /></HomeGuard> },
       { path: "permissions", element: <HomeGuard><AdminPermissionsPage /></HomeGuard> },
     ],
