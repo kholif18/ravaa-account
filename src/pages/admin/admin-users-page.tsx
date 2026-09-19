@@ -3,10 +3,12 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../../auth/auth-provider";
 import { Card, CardContent, CardHeader } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import { Badge } from "../../components/ui/badge";
 import * as adminApi from "../../lib/api/admin";
+import * as authApi from "../../lib/api/auth";
 import type { User } from "../../types";
-import { Users, HardDrive, Save } from "lucide-react";
+import { Users, HardDrive, Save, Plus, X } from "lucide-react";
 
 function formatGB(bytes: number) {
   return (bytes / (1024 * 1024 * 1024)).toFixed(1);
@@ -19,6 +21,9 @@ export function AdminUsersPage() {
   const [editing, setEditing] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showAdd, setShowAdd] = useState(false);
+  const [newUser, setNewUser] = useState({ email: "", username: "", displayName: "", password: "" });
+  const [creating, setCreating] = useState(false);
 
   async function load() {
     try {
@@ -55,16 +60,71 @@ export function AdminUsersPage() {
     }
   }
 
+  async function handleCreate(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    if (!newUser.email || !newUser.username || !newUser.password) {
+      setError("Email, username, dan password wajib");
+      return;
+    }
+    if (newUser.password.length < 8) {
+      setError("Password minimal 8 karakter");
+      return;
+    }
+    setCreating(true);
+    try {
+      await authApi.register(
+        newUser.email.trim(),
+        newUser.username.trim(),
+        newUser.password,
+        newUser.displayName.trim() || newUser.username.trim(),
+      );
+      setNewUser({ email: "", username: "", displayName: "", password: "" });
+      setShowAdd(false);
+      await load();
+    } catch (err: any) {
+      setError(err.message || "Gagal tambah user");
+    } finally {
+      setCreating(false);
+    }
+  }
+
   if (state.status === "loading") return <div className="page"><div className="skeleton h-32" /></div>;
   if (state.status !== "authenticated") return <Navigate to="/login" replace />;
   if (state.user.role !== "ADMIN") return <Navigate to="/app" replace />;
 
   return (
     <div className="page">
-      <div className="page-header">
-        <h1 className="page-title flex items-center gap-2"><Users className="w-6 h-6" /> Users & Storage</h1>
-        <p className="page-subtitle">Kelola kapasitas storage per user (dynamic enterprise)</p>
+      <div className="page-header flex items-start justify-between gap-4">
+        <div>
+          <h1 className="page-title flex items-center gap-2"><Users className="w-6 h-6" /> Users & Storage</h1>
+          <p className="page-subtitle">Kelola user & kapasitas storage per user (enterprise)</p>
+        </div>
+        <Button onClick={() => setShowAdd(true)}><Plus className="w-4 h-4" /> Tambah User</Button>
       </div>
+
+      {showAdd && (
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold">Tambah User Baru</h3>
+              <button onClick={() => setShowAdd(false)} className="p-1.5 rounded hover:bg-white/10"><X className="w-4 h-4" /></button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleCreate} className="grid gap-3 sm:grid-cols-2">
+              <Input label="Email *" type="email" value={newUser.email} onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} placeholder="user@ravaa.my.id" required />
+              <Input label="Username *" value={newUser.username} onChange={(e) => setNewUser({ ...newUser, username: e.target.value })} placeholder="username" required />
+              <Input label="Display Name" value={newUser.displayName} onChange={(e) => setNewUser({ ...newUser, displayName: e.target.value })} placeholder="Nama lengkap" />
+              <Input label="Password *" type="password" value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} placeholder="Min. 8 karakter" required />
+              <div className="sm:col-span-2 flex gap-2 pt-2">
+                <Button type="submit" loading={creating}><Plus className="w-4 h-4" /> Buat User</Button>
+                <Button type="button" variant="secondary" onClick={() => setShowAdd(false)}>Batal</Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      )}
 
       {error && <div className="alert alert-error">{error}</div>}
 
