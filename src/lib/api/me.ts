@@ -86,3 +86,14 @@ export async function deleteAccount(password: string): Promise<{ message: string
     body: JSON.stringify({ password }),
   });
 }
+
+export async function getPreferences(): Promise<{ preferences: { language: string; timezone: string; emailNotifications: boolean; securityAlerts: boolean } }> {
+  return apiRequest<{ preferences: { language: string; timezone: string; emailNotifications: boolean; securityAlerts: boolean } }>("/api/v1/me/preferences");
+}
+
+export async function updatePreferences(data: { language?: string; timezone?: string; emailNotifications?: boolean; securityAlerts?: boolean }): Promise<{ preferences: { language: string; timezone: string; emailNotifications: boolean; securityAlerts: boolean } }> {
+  return apiRequest<{ preferences: { language: string; timezone: string; emailNotifications: boolean; securityAlerts: boolean } }>("/api/v1/me/preferences", {
+    method: "PATCH",
+    body: JSON.stringify(data),
+  });
+}

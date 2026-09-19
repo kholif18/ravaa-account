@@ -2,32 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, CardHeader, CardContent } from "../../components/ui/card";
 import { Globe, Bell, CheckCircle } from "lucide-react";
 import { cn } from "../../lib/utils";
-
-const STORAGE_KEY = "ravaa-preferences";
-
-type Preferences = {
-  language: string;
-  timezone: string;
-  emailNotifications: boolean;
-  securityAlerts: boolean;
-};
-
-function loadPreferences(): Preferences {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored);
-  } catch {}
-  return {
-    language: "en",
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    emailNotifications: true,
-    securityAlerts: true,
-  };
-}
-
-function savePreferences(prefs: Preferences) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
-}
+import * as meApi from "../../lib/api/me";
 
 export function PreferencesPage() {
   const [language, setLanguage] = useState("en");
@@ -38,24 +13,24 @@ export function PreferencesPage() {
   const [securityAlerts, setSecurityAlerts] = useState(true);
   const [success, setSuccess] = useState(false);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const prefs = loadPreferences();
-    setLanguage(prefs.language);
-    setTimezone(prefs.timezone);
-    setEmailNotifications(prefs.emailNotifications);
-    setSecurityAlerts(prefs.securityAlerts);
+    meApi.getPreferences().then(({ preferences }) => {
+      setLanguage(preferences.language || "en");
+      setTimezone(preferences.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone);
+      setEmailNotifications(preferences.emailNotifications);
+      setSecurityAlerts(preferences.securityAlerts);
+    }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    savePreferences({
-      language,
-      timezone,
-      emailNotifications,
-      securityAlerts,
-    });
-    setSuccess(true);
-    setTimeout(() => setSuccess(false), 3000);
+    try {
+      await meApi.updatePreferences({ language, timezone, emailNotifications, securityAlerts });
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch {}
   };
 
   return (
@@ -65,8 +40,8 @@ export function PreferencesPage() {
         <p className="page-subtitle">Customize your account preferences</p>
       </div>
 
-      <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 rounded-xl text-sm text-blue-600 dark:text-blue-400">
-        Preferences are stored locally in your browser. They are not synced to the server.
+      <div className="mb-4 p-3 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 rounded-xl text-sm text-emerald-700 dark:text-emerald-300">
+        {loading ? "Loading preferences..." : "Preferences are synced to server — berlaku di semua device (HP & web)."}
       </div>
 
       {success && (
