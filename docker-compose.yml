@@ -1,0 +1,11 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:2711}
+        VITE_APP_MODE: ${VITE_APP_MODE:-home}
+        VITE_HOME_HIDE_ADMIN: ${VITE_HOME_HIDE_ADMIN:-true}
+    restart: unless-stopped
+    ports:
+      - "2712:80"
