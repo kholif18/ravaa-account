@@ -3,9 +3,9 @@ services:
     build:
       context: .
       args:
-        VITE_API_URL: ${VITE_API_URL:-http://localhost:2711}
-        VITE_APP_MODE: ${VITE_APP_MODE:-home}
-        VITE_HOME_HIDE_ADMIN: ${VITE_HOME_HIDE_ADMIN:-true}
+        VITE_API_URL: ${VITE_API_URL:-https://service.ravaa.my.id}
+        VITE_APP_MODE: ${VITE_APP_MODE:-enterprise}
+        VITE_HOME_HIDE_ADMIN: ${VITE_HOME_HIDE_ADMIN:-false}
     restart: unless-stopped
     ports:
       - "2712:80"
