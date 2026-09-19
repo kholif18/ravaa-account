@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../auth/auth-provider";
 import { Card, CardHeader, CardContent } from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";
-import { CheckCircle, AlertTriangle, Loader2 } from "lucide-react";
+import { CheckCircle, AlertTriangle, Loader2, Pencil } from "lucide-react";
 import { resendVerification } from "../../lib/api/auth";
 import { ApiClientError } from "../../lib/api/client";
 
@@ -30,16 +32,25 @@ export function ProfilePage() {
 
       <Card>
         <CardHeader>
-          <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
-            Account Details
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold dark:text-zinc-100 text-white">
+              Account Details
+            </h2>
+            <Link to="/app/profile/edit">
+              <Button size="sm"><Pencil className="w-4 h-4" /> Edit Profile</Button>
+            </Link>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center gap-4">
-            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center">
-              <span className="text-2xl font-bold text-white">
-                {(user.displayName || user.username).charAt(0).toUpperCase()}
-              </span>
+            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center overflow-hidden">
+              {user.avatarUrl ? (
+                <img src={user.avatarUrl} alt={user.displayName || user.username} className="h-full w-full object-cover" />
+              ) : (
+                <span className="text-2xl font-bold text-white">
+                  {(user.displayName || user.username).charAt(0).toUpperCase()}
+                </span>
+              )}
             </div>
             <div>
               <p className="text-lg font-medium dark:text-zinc-100 text-white">
