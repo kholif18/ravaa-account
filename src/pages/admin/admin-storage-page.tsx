@@ -6,7 +6,7 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Badge } from "../../components/ui/badge";
 import * as storageApi from "../../lib/api/storage";
-import { HardDrive, Plus, Trash2, Server } from "lucide-react";
+import { HardDrive, Plus, Trash2, Server, Activity } from "lucide-react";
 
 export function AdminStoragePage() {
   const { state } = useAuth();
@@ -91,6 +91,45 @@ export function AdminStoragePage() {
                 ))}
               </div>
             </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader><h3 className="font-semibold flex items-center gap-2"><Activity className="w-4 h-4" /> Disk Monitor</h3><p className="text-xs text-zinc-500">Usage & Available per mount — update otomatis</p></CardHeader>
+        <CardContent className="space-y-4">
+          {loading ? <div className="skeleton h-20" /> : (
+            <>
+              {mounts.length === 0 && <p className="text-sm text-zinc-500">Tidak ada mount terdeteksi</p>}
+              {mounts.map((m: any) => {
+                const s = m.stats;
+                if (!s) return (
+                  <div key={m.mountPoint} className="p-3 rounded-lg border dark:border-white/[0.04] bg-[#1A1A1A]/30">
+                    <p className="text-sm font-medium">{m.mountPoint} <span className="text-xs text-zinc-500">({m.fsType} • {m.device})</span></p>
+                    <p className="text-xs text-zinc-500">No stats</p>
+                  </div>
+                );
+                const pct = Math.round(s.percentUsed || 0);
+                const freeGB = (s.free / 1024 / 1024 / 1024).toFixed(1);
+                const usedGB = (s.used / 1024 / 1024 / 1024).toFixed(1);
+                const totalGB = (s.total / 1024 / 1024 / 1024).toFixed(1);
+                return (
+                  <div key={m.mountPoint} className="p-3 rounded-lg border dark:border-white/[0.04] bg-[#1A1A1A]/30">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-sm font-medium truncate">{m.mountPoint} <span className="text-xs font-normal text-zinc-500">({m.fsType} • {m.device}) {m.isUsed && <Badge variant="success">Terpakai</Badge>}</span></p>
+                      <span className={`text-xs px-1.5 py-0.5 rounded ${m.writable ? "bg-emerald-500/20 text-emerald-400" : "bg-red-500/20 text-red-400"}`}>{m.writable ? "Writable" : "Read-only"}</span>
+                    </div>
+                    <div className="mt-2 h-2 rounded-full bg-[#232323] overflow-hidden">
+                      <div className={`h-full ${pct > 85 ? "bg-red-500" : pct > 70 ? "bg-amber-500" : "bg-blue-500"}`} style={{ width: `${pct}%` }} />
+                    </div>
+                    <div className="flex justify-between text-[11px] text-zinc-500 mt-1">
+                      <span>{pct}% used • {usedGB}GB used</span>
+                      <span>{freeGB}GB free / {totalGB}GB total</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
           )}
         </CardContent>
       </Card>
