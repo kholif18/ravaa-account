@@ -10,18 +10,42 @@ import { ApiClientError } from "../../lib/api/client";
 
 export function ApplicationsPage() {
   const [accesses, setAccesses] = useState<MyApplicationAccess[]>([]);
+  const [apps, setApps] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [revoking, setRevoking] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [health, setHealth] = useState<Record<string, boolean>>({});
 
   const load = async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await meApi.listMyApplications();
-      // filter out revoked if you want to show active only, but show all with badge
-      setAccesses(data.accesses);
+      const [myData, allApps] = await Promise.all([
+        meApi.listMyApplications().catch(() => ({ accesses: [] } as any)),
+        // list all registered apps (now allowed for all users)
+        fetch(`${import.meta.env.VITE_API_URL || "http://localhost:2711"}/api/v1/applications`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("ravaa_token") || ""}` },
+          credentials: "include",
+        }).then(r => r.json()).catch(() => ({ applications: [] })),
+      ]);
+      setAccesses(myData.accesses || []);
+      const list = (allApps as any).applications || [];
+      setApps(list);
+      // realtime health check via public subdomains (if home only service+account, drive/notes will be offline)
+      list.forEach((app: any) => {
+        const urlMap: Record<string, string> = {
+          "ravaa-drive": "https://drive.ravaa.my.id/health",
+          "ravaa-note": "https://notes.ravaa.my.id/health",
+          "ravaa-office": "https://office.ravaa.my.id/health",
+        };
+        const url = urlMap[app.slug];
+        if (url) {
+          fetch(url, { method: "GET" }).then(r => setHealth(h => ({ ...h, [app.slug]: r.ok }))).catch(() => setHealth(h => ({ ...h, [app.slug]: false })));
+        } else {
+          setHealth(h => ({ ...h, [app.slug]: true }));
+        }
+      });
     } catch (err) {
       const msg = err instanceof ApiClientError ? err.message : "Failed to load applications";
       setError(msg);
@@ -74,6 +98,35 @@ export function ApplicationsPage() {
           <CheckCircle className="w-4 h-4" /> {success}
         </div>
       )}
+
+      {/* Available Applications — realtime dari Service */}
+      <Card>
+        <CardHeader>
+          <h3 className="font-semibold flex items-center gap-2"><AppWindow className="w-4 h-4" /> Available Applications</h3>
+          <p className="text-xs text-zinc-500">Terdaftar di Service — hijau = online (health check), abu = offline (belum dijalankan di home server)</p>
+        </CardHeader>
+        <CardContent>
+          {loading ? <div className="skeleton h-16" /> : (
+            <div className="grid gap-2 sm:grid-cols-2">
+              {apps.map((app: any) => {
+                const isOnline = health[app.slug];
+                const hasAccess = active.some(a => a.applicationId === app.id);
+                return (
+                  <div key={app.id} className="flex items-center gap-3 p-3 rounded-xl border dark:border-white/[0.04] bg-[#1A1A1A]/30">
+                    <div className={`w-2 h-2 rounded-full ${isOnline === true ? "bg-emerald-500" : isOnline === false ? "bg-zinc-500" : "bg-amber-500"}`} />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm truncate">{app.name} <span className="text-xs text-zinc-500">({app.slug})</span></p>
+                      <p className="text-xs text-zinc-500">{isOnline === true ? "Online" : isOnline === false ? "Offline — belum dijalankan" : "Checking..."} {hasAccess && "• Connected"}</p>
+                    </div>
+                    <Badge variant={isOnline === true ? "success" : "default"}>{isOnline === true ? "Online" : "Offline"}</Badge>
+                  </div>
+                );
+              })}
+              {apps.length === 0 && <p className="text-sm text-zinc-500">Tidak ada aplikasi terdaftar</p>}
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
