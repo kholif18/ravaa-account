@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../auth/auth-provider";
 import { Card, CardContent } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
@@ -12,8 +12,12 @@ import {
   AppWindow,
   Mail,
   AlertTriangle,
+  HardDrive,
+  FileText,
+  Image as ImageIcon,
 } from "lucide-react";
 import { resendVerification } from "../../lib/api/auth";
+import * as adminApi from "../../lib/api/admin";
 
 export function DashboardPage() {
   const { state } = useAuth();
@@ -23,6 +27,18 @@ export function DashboardPage() {
   if (state.status !== "authenticated") return null;
 
   const { user } = state;
+
+  const [storage, setStorage] = useState<{ used: number; limit: number } | null>(null);
+  useEffect(() => {
+    if (user.role === "ADMIN") {
+      adminApi.listUsers().then((data) => {
+        const me = (data.users as any[]).find((u: any) => u.id === user.id);
+        if (me) setStorage({ used: Number(me.storageUsed || 0), limit: Number(me.storageLimit || 5368709120) });
+      }).catch(() => setStorage({ used: 0, limit: 5368709120 }));
+    } else {
+      setStorage({ used: 0, limit: 5368709120 });
+    }
+  }, [user.id, user.role]);
 
   const handleResend = async () => {
     setResendLoading(true);
@@ -60,6 +76,26 @@ export function DashboardPage() {
             <Mail className="h-4 w-4" /> {resendLoading ? "Mengirim..." : "Kirim ulang email"}
           </button>
         </div>
+      )}
+
+      {/* Storage per-app — Google One style */}
+      {storage && (
+        <Card>
+          <CardContent className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold flex items-center gap-2"><HardDrive className="w-4 h-4" /> Storage</h3>
+              <span className="text-xs text-zinc-500">{(storage.used / 1024 / 1024 / 1024).toFixed(2)} GB of {(storage.limit / 1024 / 1024 / 1024).toFixed(0)} GB used</span>
+            </div>
+            <div className="h-2 rounded-full bg-[#1A1A1A] border border-white/[0.04] overflow-hidden flex">
+              <div className="bg-blue-500" style={{ width: `${Math.min(100, (storage.used / storage.limit) * 100)}%` }} />
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-xs">
+              <div className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center gap-2"><HardDrive className="w-4 h-4 text-blue-400" /> Drive</div>
+              <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-2"><FileText className="w-4 h-4 text-emerald-400" /> Notes</div>
+              <div className="p-2 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center gap-2"><ImageIcon className="w-4 h-4 text-purple-400" /> Photos</div>
+            </div>
+          </CardContent>
+        </Card>
       )}
 
       {/* Security status widget */}
