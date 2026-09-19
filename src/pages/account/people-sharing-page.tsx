@@ -2,24 +2,33 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
 import { Users, Share2, Link2, Clock } from "lucide-react";
+import { apiRequest } from "../../lib/api/client";
 
 export function PeopleSharingPage() {
   const [shares, setShares] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // HOME: ambil dari Drive+Notes via Service mobile gateway (jika ada), fallback mock
-    Promise.allSettled([
-      fetch("/api/v1/mobile/drive/files?shared=true", { credentials: "include" }).then(r => r.json()).catch(() => null),
-      fetch("/api/v1/mobile/notes?shared=true", { credentials: "include" }).then(r => r.json()).catch(() => null),
-    ]).then(() => {
-      // Mock untuk HOME demo — 2 contoh share
-      setShares([
-        { id: "1", resource: "Ravaa Notes / Ravaa Link Note", via: "Drive", visibility: "LINK", permission: "view", createdAt: new Date().toISOString(), views: 3 },
-        { id: "2", resource: "Foto Keluarga / liburan.jpg", via: "Drive", visibility: "FAMILY", permission: "view", createdAt: new Date().toISOString(), views: 1 },
-      ]);
-      setLoading(false);
-    });
+    const load = async () => {
+      try {
+        const [driveRes, notesRes] = await Promise.all([
+          apiRequest<any>("/api/v1/mobile/drive/shares").catch(() => null),
+          apiRequest<any>("/api/v1/mobile/notes/shares").catch(() => null),
+        ]);
+        const driveShares = ((driveRes as any)?.data?.shares || (driveRes as any)?.shares || []).map((s: any) => ({
+          id: s.id, resource: s.shareableId || s.fileId || s.noteId || s.shareableId, via: "Drive", visibility: s.visibility, permission: s.permission, createdAt: s.createdAt, views: s.viewCount || 0,
+        }));
+        const notesShares = ((notesRes as any)?.data?.shares || (notesRes as any)?.shares || []).map((s: any) => ({
+          id: s.id, resource: s.shareableId || s.noteId, via: "Notes", visibility: s.visibility, permission: s.permission, createdAt: s.createdAt, views: s.viewCount || 0,
+        }));
+        setShares([...driveShares, ...notesShares]);
+      } catch {
+        setShares([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
 
   return (
